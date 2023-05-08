@@ -1,8 +1,10 @@
-import './home.scss'
-
-import twitter from '../../assets/images/twitter-white.svg';
 import { useState } from 'react';
+
+import './home.scss'
+import twitter from '../../assets/images/twitter-white.svg';
+
 import SignUp from '../../modals/sing-up/signUp.modal';
+import SignIn from '../../modals/sign-in/signIn.modal';
 
 const Home = () => {
     const [signUpClicked, setSignUpClicked] = useState(false)
@@ -21,7 +23,7 @@ const Home = () => {
             </div>
 
             {signUpClicked && <SignUp />}
-            {/* {signUpClicked && <SignIn />} */}
+            {signInClicked && <SignIn />}
         </div>
     )
 }
