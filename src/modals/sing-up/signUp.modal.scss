@@ -1,0 +1,94 @@
+
+.signUp-container {
+    max-width: 80vw;
+    min-width: 600px;
+    min-height: 400px;
+    height: 500px;
+    background-color: black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding-left: 15px;
+    justify-content: space-around;
+    .signUp {
+        .signUp-steps {
+            display: flex;
+            font-size: 20px;
+            font-weight: bold;
+            p {
+                margin-right: 50px;
+                cursor: pointer;
+            }
+        }
+    
+        .signUp-create,
+        .signUp-date {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            h1 {
+                width: 70%;
+                
+            }
+            input {
+                width: 70%;
+                height: 40px;
+                margin-top: 20px;
+                background: none;
+                border: 1px solid grey;
+                border-radius: 5px;
+                padding: 10px;
+                color: white;
+                font-size: 15px;
+            }
+        }
+        .signUp-date {
+            h1 {
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+            p {
+                width: 70%;
+                font-size: 14px;
+                color: grey;
+            }
+        }
+    }
+    .confirm {
+        // position: fixed;
+        // bottom: 0;
+        //  aq shegvidzlia dabvadot borderi zemodan shrinkistvis
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 50px;
+        button {
+            background: none;
+            border-radius: 20px;
+            border: 1px solid grey;
+            color: white;
+            width: 70%;
+            height: 100%;
+        }
+    }
+}
+
+
+
+
+@media (max-width: 700px) {
+
+    .signUp-container {
+        min-width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+    
+    }
+}
