@@ -16,6 +16,8 @@
     padding-left: 15px;
     justify-content: space-around;
     .signUp {
+        max-height: 80%;
+        overflow-y: auto;
         .signUp-steps {
             display: flex;
             font-size: 20px;
@@ -34,7 +36,6 @@
             align-items: center;
             h1 {
                 width: 70%;
-                
             }
             input {
                 width: 70%;
@@ -46,6 +47,10 @@
                 padding: 10px;
                 color: white;
                 font-size: 15px;
+                outline: none;
+            }
+            input:focus {
+                border: 1px solid rgb(42, 159, 242);
             }
         }
         .signUp-date {
@@ -91,4 +96,15 @@
         border-radius: 0;
     
     }
+}
+
+.invalid {
+    border: 1px solid red !important;
+}
+
+.invalid-message {
+    width: 70%;
+    margin-top: 5px;
+    color: red;
+    text-align: left;
 }
