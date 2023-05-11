@@ -4,7 +4,7 @@ const initialState = {
     signInClicked: false,
     signUpClicked: false,
     user: null,
-    errors: []
+    errors: null
 }
 
 export const authSlice = createSlice({
@@ -17,10 +17,18 @@ export const authSlice = createSlice({
 
         signUpModalClick: (state, action) => {
             state.signUpClicked = action.payload
+        },
+
+        signUp: (state,action) => {
+            if(action.payload) {
+                state.errors = action.payload
+            }else {
+                state.errors = null
+            }
         }
     }
 })
 
-export const { signInModalClick, signUpModalClick } = authSlice.actions
+export const { signInModalClick, signUpModalClick, signUp } = authSlice.actions
 
 export default authSlice.reducer

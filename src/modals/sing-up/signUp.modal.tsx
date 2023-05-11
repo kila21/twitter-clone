@@ -1,8 +1,12 @@
 import { useForm } from 'react-hook-form'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
 
 import './signUp.modal.scss'
-import { useAppDispatch } from '../../store/hooks'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { signUpModalClick } from '../../store/auth/auth.slice'
+import { auth } from '../../config/firebase'
+import { userSignUp } from '../../store/auth/auth.thunk'
+import { RootState } from '../../main'
 
 const SignUp = () => {
     type SignUpForm = {
@@ -13,12 +17,16 @@ const SignUp = () => {
 
     //forms
     const { register, handleSubmit, watch, formState: {errors, touchedFields} } = useForm<SignUpForm>()
-    const onSubmit = (data: SignUpForm) => console.log(data)
+    const onSubmit = (data: SignUpForm) => {
+        dispatch(userSignUp(data.name, data.password))
+    }
+
     const password = watch('password')
     const name = watch('name')
 
     //store
     const dispatch = useAppDispatch()
+    const selector = useAppSelector((state: RootState) => state.auth.errors)
 
     return (
         <div className='signUp-container'>
@@ -38,7 +46,7 @@ const SignUp = () => {
                     />
                     {/* {errors.name && <span className='invalid-message'>{errors.name?.message}</span>} */}
                     {!name && touchedFields.name && <span className='invalid-message'>Required</span>}
-              
+                    {selector && <span className='invalid-message'>{selector}</span>}
 
                     <input 
                     type='password' 
