@@ -10,7 +10,7 @@ import { RootState } from '../../main'
 
 const SignUp = () => {
     type SignUpForm = {
-        name: string,
+        email: string,
         password: string,
         date: string
     }
@@ -18,11 +18,11 @@ const SignUp = () => {
     //forms
     const { register, handleSubmit, watch, formState: {errors, touchedFields} } = useForm<SignUpForm>()
     const onSubmit = (data: SignUpForm) => {
-        dispatch(userSignUp(data.name, data.password))
+        dispatch(userSignUp(data.email, data.password))
     }
 
     const password = watch('password')
-    const name = watch('name')
+    const name = watch('email')
 
     //store
     const dispatch = useAppDispatch()
@@ -39,13 +39,13 @@ const SignUp = () => {
                 <div className='signUp-create'>
                     <h1>Create your account</h1>
                     <input 
-                    className={errors.name ? 'invalid' : ''}
-                    type='text' 
-                    placeholder='Name'
-                    {...register('name', {required: 'Required'})}
+                    className={errors.email ? 'invalid' : ''}
+                    type='email' 
+                    placeholder='Email'
+                    {...register('email', {required: 'Required'})}
                     />
                     {/* {errors.name && <span className='invalid-message'>{errors.name?.message}</span>} */}
-                    {!name && touchedFields.name && <span className='invalid-message'>Required</span>}
+                    {!name && touchedFields.email && <span className='invalid-message'>Required</span>}
                     {selector && <span className='invalid-message'>{selector}</span>}
 
                     <input 
