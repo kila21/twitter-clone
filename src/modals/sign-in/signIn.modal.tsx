@@ -4,20 +4,25 @@ import './signIn.modal.scss'
 
 import twitter from '../../assets/images/twitter-white.svg'
 import { useForm } from 'react-hook-form'
-import { useAppDispatch } from '../../store/hooks'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { signInModalClick } from '../../store/auth/auth.slice'
+import { userSignIn } from '../../store/auth/auth.thunk'
+import { RootState } from '../../main'
 
 const SignIn = () => {
     type SignInForm = {
-        name: string,
+        email: string,
         password: string
     }
 
     const { register, handleSubmit, formState: {errors}} = useForm<SignInForm>()
-    const onSubmit = (data: SignInForm) => console.log(data)
+    const onSubmit = (data: SignInForm) => {
+        dispatch(userSignIn(data.email, data.password))
+    }
 
     //store 
     const dispatch = useAppDispatch()
+    const selector= useAppSelector((state: RootState) => state.auth.errors)
 
     return (
         <div className='signIn-container'>
@@ -29,10 +34,12 @@ const SignIn = () => {
             <div className='signIn'>
                 <h1>Sign in to Twitter</h1>
                 <input 
-                type='text' 
-                placeholder='username'
-                {...register('name')}
+                type='email' 
+                placeholder='email'
+                {...register('email')}
                 />
+                {selector && <span className='invalid-message'>{selector}</span>}
+
                 <input 
                 type='password' 
                 placeholder='password'
