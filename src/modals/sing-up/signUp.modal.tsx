@@ -1,6 +1,8 @@
 import { useForm } from 'react-hook-form'
 
 import './signUp.modal.scss'
+import { useAppDispatch } from '../../store/hooks'
+import { signUpModalClick } from '../../store/auth/auth.slice'
 
 const SignUp = () => {
     type SignUpForm = {
@@ -9,16 +11,20 @@ const SignUp = () => {
         date: string
     }
 
-    const { register, handleSubmit, watch, formState: {errors,isDirty, touchedFields} } = useForm<SignUpForm>()
+    //forms
+    const { register, handleSubmit, watch, formState: {errors, touchedFields} } = useForm<SignUpForm>()
     const onSubmit = (data: SignUpForm) => console.log(data)
     const password = watch('password')
     const name = watch('name')
+
+    //store
+    const dispatch = useAppDispatch()
 
     return (
         <div className='signUp-container'>
             <div className='signUp'>
                 <div className='signUp-steps'>
-                    <p> X </p>
+                    <p onClick={() => dispatch(signUpModalClick(false))}> X </p>
                     <span> Step 1 OF 1</span>
                 </div>
                 
