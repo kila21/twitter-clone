@@ -1,9 +1,9 @@
-import Home from "./components/home/home"
+import Authorization from "./components/authorization/authorization"
 
 function App() {
   return (
     <>
-        <Home />
+        <Authorization />
     </>
   )
 }

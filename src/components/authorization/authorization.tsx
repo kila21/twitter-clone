@@ -1,6 +1,4 @@
-import { useState } from 'react';
-
-import './home.scss'
+import './authorization.scss'
 import twitter from '../../assets/images/twitter-white.svg';
 
 import SignUp from '../../modals/sing-up/signUp.modal';
@@ -9,18 +7,18 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { signInModalClick, signUpModalClick } from '../../store/auth/auth.slice';
 import { RootState } from '../../main';
 
-const Home = () => {
+const Authorization = () => {
     const dispatch = useAppDispatch()
     const selector = useAppSelector((state: RootState) => state.auth)
 
     return (
-        <div className={selector.signInClicked || selector.signUpClicked ? 'home-container modal' : 'home-container'}>
-            <div className='home_twitter-logo'>
+        <div className={selector.signInClicked || selector.signUpClicked ? 'authorization-container modal' : 'authorization-container'}>
+            <div className='authorization_twitter-logo'>
                 <img src={twitter} alt='twitter'/>
                 <h1>Twitter</h1>
             </div>
 
-            <div className='home_content'>
+            <div className='authorization_content'>
                 <button onClick={() => dispatch(signInModalClick(true))}>Sign In</button>
                 <button onClick={() => dispatch(signUpModalClick(true))}>Create Account</button>
             </div>
@@ -32,4 +30,4 @@ const Home = () => {
 }
 
 
-export default Home;
+export default Authorization ;
