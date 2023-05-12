@@ -2,9 +2,11 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "fire
 import { auth } from "../../config/firebase"
 
 import { signInModalClick, signUpModalClick, signUp, signIn } from "./auth.slice"
+import { Action, ThunkAction } from "@reduxjs/toolkit"
+import { RootState } from "../../main"
 
-export const userSignUp = (email: string, password: string) => {
-    return async (dispatch: any) => {
+export const userSignUp = (email: string, password: string): ThunkAction<void, RootState, null, Action> => {
+    return async dispatch => {
         try {
             await createUserWithEmailAndPassword(auth, email, password)
             dispatch(signUp(null))
@@ -16,8 +18,8 @@ export const userSignUp = (email: string, password: string) => {
     }
 }
 
-export const userSignIn = (email: string, password: string) => {
-    return async (dispatch: any) => {
+export const userSignIn = (email: string, password: string): ThunkAction<void, RootState, null, Action> => {
+    return async dispatch => {
         try {
             await signInWithEmailAndPassword(auth, email, password)
             dispatch(signIn({user: true, error: null}))
