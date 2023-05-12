@@ -8,8 +8,13 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { signInModalClick } from '../../store/auth/auth.slice'
 import { userSignIn } from '../../store/auth/auth.thunk'
 import { RootState } from '../../main'
+import { useNavigate } from 'react-router'
+import { useEffect} from 'react'
 
 const SignIn = () => {
+
+    const navigate = useNavigate()
+
     type SignInForm = {
         email: string,
         password: string
@@ -18,11 +23,17 @@ const SignIn = () => {
     const { register, handleSubmit, formState: {errors}} = useForm<SignInForm>()
     const onSubmit = (data: SignInForm) => {
         dispatch(userSignIn(data.email, data.password))
+        .then((res:any)=>{
+            if(res.payload.user) {
+                navigate('/home')
+            }
+        })
     }
 
     //store 
     const dispatch = useAppDispatch()
-    const selector= useAppSelector((state: RootState) => state.auth.errors)
+    const selector = useAppSelector((state: RootState) => state.auth)
+
 
     return (
         <div className='signIn-container'>
@@ -38,7 +49,7 @@ const SignIn = () => {
                 placeholder='email'
                 {...register('email')}
                 />
-                {selector && <span className='invalid-message'>{selector}</span>}
+                {selector.errors && <span className='invalid-message'>{selector.errors}</span>}
 
                 <input 
                 type='password' 
