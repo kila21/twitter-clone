@@ -1,10 +1,7 @@
 import { useForm } from 'react-hook-form'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
-
 import './signUp.modal.scss'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { signUpModalClick } from '../../store/auth/auth.slice'
-import { auth } from '../../config/firebase'
 import { userSignUp } from '../../store/auth/auth.thunk'
 import { RootState } from '../../main'
 
