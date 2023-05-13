@@ -6,9 +6,14 @@ import { Action, ThunkAction } from "@reduxjs/toolkit"
 import { RootState } from "../../main"
 
 
+interface user  {
+    email: string,
+    password: string
+}
 
 
-export const userSignUp = (email: string, password: string): ThunkAction<void, RootState, null, Action> => {
+
+export const userSignUp = (email: string, password: string): ThunkAction<void, RootState, user, Action> => {
     return async (dispatch: any) => {
         try {
             await createUserWithEmailAndPassword(auth, email, password)
@@ -21,7 +26,7 @@ export const userSignUp = (email: string, password: string): ThunkAction<void, R
     }
 }
 
-export const userSignIn = (email: string, password: string): ThunkAction<Action<typeof signIn>, RootState, null, Action> => {
+export const userSignIn = (email: string, password: string): ThunkAction<void, RootState, user, Action<typeof signIn>> => {
     return async (dispatch: any) => {
         try {
             await signInWithEmailAndPassword(auth, email, password)
@@ -31,3 +36,4 @@ export const userSignIn = (email: string, password: string): ThunkAction<Action<
         }
     }
 }
+
