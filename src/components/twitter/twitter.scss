@@ -1,0 +1,48 @@
+
+.twitter-container {
+    position: relative;;
+    color: white;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(91, 112, 131, 0.4);
+    overflow-y: hidden;
+    display: flex;
+    overflow-x: hidden;
+    .twitter-user {
+        img {
+            width: 50px;
+        }
+    }
+    .twitter-account-info {
+        border-right: 1px solid grey;
+        width: 25%;
+        height: 100vh;
+    }
+    
+}
+
+@media (max-width: 1280px) {
+    .twitter-container {
+
+        .twitter-account-info {
+            width: 10%;
+        }
+    }
+}
+
+@media (max-width: 500px) {
+    .twitter-container {
+        .twitter-account-info {
+            display: none;
+           
+        }
+        .active-twitter-account-info {
+            width: 280px;
+            height: 100%;
+            position: absolute;
+            display: flex;
+            top: 0;
+            left: 0;
+        }
+    }
+}

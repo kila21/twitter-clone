@@ -1,0 +1,109 @@
+.account-info_help {
+    height: 50px;
+    margin-bottom: 50px;
+    margin-top: 30px;
+    .help-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+        font-size: 12px;
+    }
+    .active-div {
+        background-color: rgb(22, 24, 28);
+    }
+
+    span {
+        font-size: 20px;
+        transform: rotate(270deg);
+    }
+    .active-span {
+        transform: rotate(90deg);
+        color: rgb(0, 170, 255);
+    }
+
+    .help-hidden-list {
+        display: none;
+        .help-hidden-list-item {
+            font-size: 13px;
+            display: flex;
+            margin-top: 15px;
+            img {
+                width: 18px;
+                margin-right: 40px;
+            }
+        }
+    }
+    .active-list {
+        display: flex;
+        height: auto;
+        min-height: 200px;
+        flex-direction: column;
+        .help-hidden-list-item {
+            margin-bottom: 15px;
+        }
+    }
+
+}
+
+
+
+// maxwidth > 500
+.account-info_help-user {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    // justify-content: center;
+    margin-left: 20px;
+    margin-top: 30px;
+    span {
+        margin-left: 20px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+    img {
+        width: 50px;
+        cursor: pointer;
+        border-radius: 50%;
+    }
+    .account-info_help-hidden {
+        display: none;
+    }
+    .accout-info_help-medium {
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(0, -60%);
+        display: flex;
+        justify-content: center;
+        width: 300px;
+        height: 110px;
+        border-radius: 20px;
+        background-color: black;
+        border: 1px solid grey;
+        box-shadow: 2px white;
+        flex-direction: column;
+        div {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            font-size: 10px;
+            height: 50%;
+           h3 {
+            cursor: pointer;
+           }
+        }
+    }
+}
+
+
+@media (max-width: 1280px) {
+    .account-info_help-user {
+        margin-left: 0;
+        justify-content: center;
+        .accout-info_help-medium {
+            transform: translate(90%, -60%);
+        }
+    }
+}
