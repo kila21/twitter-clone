@@ -4,6 +4,8 @@ import './twitter.scss'
 
 import user from '../../assets/images/user.png'
 import { useEffect, useState } from 'react';
+import Home from '../home/home';
+import MobileNavigation from './mobile-navigation/mobileNavigation';
 
 const Twitter = () => {
     
@@ -19,8 +21,6 @@ const Twitter = () => {
         if(maxWidth >= 500) {
             setClick(false)
         }
-
-        console.log(maxWidth)
         return () => {
             window.removeEventListener('resize', handleResize)
         }
@@ -35,11 +35,19 @@ const Twitter = () => {
             (<div className='twitter-user'>
                 <img onClick={() => setClick(true)} src={user}/>
             </div>)}
+
+
             <div className={click ? 'active-twitter-account-info' :'twitter-account-info'}>
                 <AccountInfo collapse={collapseClickHandler}/>
             </div>
-            <div className='twitter-account-content'></div>
-            
+            <div className='twitter-account-content'>
+                <Home />
+            </div>
+
+
+            <div className='mobile-fiexd-main-list'>
+                <MobileNavigation />
+            </div>
         </div>
 
     )
