@@ -31,19 +31,21 @@ const Twitter = () => {
     }
     return (
         <div className='twitter-container'>
-           {maxWidth < 500 &&
-            (<div className='twitter-user'>
-                <img onClick={() => setClick(true)} src={user}/>
-            </div>)}
-
-
+          
             <div className={click ? 'active-twitter-account-info' :'twitter-account-info'}>
                 <AccountInfo collapse={collapseClickHandler}/>
             </div>
-            <div className='twitter-account-content'>
-                <Home />
-            </div>
 
+            <div className='twitter-account-content'>
+                {maxWidth < 500 &&
+                (<div className='twitter-user'>
+                    <img onClick={() => setClick(true)} src={user}/>
+                </div>)}
+
+                <div className=''>
+                    <Home />
+                </div>
+            </div>
 
             <div className='mobile-fiexd-main-list'>
                 <MobileNavigation />

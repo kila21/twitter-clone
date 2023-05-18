@@ -1,11 +1,11 @@
 
 .twitter-container {
-    position: relative;;
+    position: relative;
     color: white;
     width: 100vw;
     height: 100vh;
     background-color: rgba(91, 112, 131, 0.4);
-    overflow-y: hidden;
+    // overflow-y: hidden;
     display: flex;
     overflow-x: hidden;
     .twitter-user {
@@ -14,30 +14,38 @@
         }
     }
     .twitter-account-info {
+        position: relative;
         border-right: 1px solid grey;
-        width: 25%;
+        min-width: 80px;
         height: 100vh;
     }
     
     .mobile-fiexd-main-list {
         display: none;
     }
+
+    .twitter-account-content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
 }
 
-@media (max-width: 1280px) {
-    .twitter-container {
 
+@media screen and (min-device-width: 1440px) and (max-device-width: 2450px) { 
+    .twitter-container {
         .twitter-account-info {
-            width: 10%;
+            min-width: 300px;
         }
     }
 }
+
 
 @media (max-width: 500px) {
     .twitter-container {
         .twitter-account-info {
             display: none;
-           
         }
         .active-twitter-account-info {
             width: 280px;
@@ -54,6 +62,11 @@
             height: 70px;
             position: fixed;
             bottom: 0;
+        }
+
+        .twitter-account-content {
+            width: 100%;
+            height: 100%;
         }
     }
 }

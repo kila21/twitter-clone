@@ -2,10 +2,14 @@
 .account-info_container {
     color: white;
     display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
     flex-direction: column;
-    width: 100%;
+    width: 80px;
     height: 100%;
     background-color: black;
+    border-right: 1px solid grey;
     .account-info_list {
         margin-top: 20px;
         display: flex;
@@ -35,8 +39,11 @@
 
 
 
-
-
+@media screen and (min-device-width: 1440px) and (max-device-width: 2450px) { 
+    .account-info_container {
+        min-width: 300px;
+    }
+}
 
 
 @media (max-width: 1280px) {
