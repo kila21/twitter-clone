@@ -1,0 +1,32 @@
+
+.home-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    .home-container_title {
+        display: flex;
+        position: sticky;
+        flex-direction: column;
+        width: 100%;
+        border-bottom: 1px solid grey;
+        h1 {
+            text-align: left;
+            font-size: 25px;
+            font-weight: bold;
+            margin-left: 20px;
+            margin-top: 20px;
+        }
+        span {
+            margin: auto;
+            font-size: 18px;
+            height: 30px;
+            border-bottom: 3px solid rgb(29, 155, 240);
+            cursor: pointer;
+        }
+    }
+    .home-tweets {
+        display: flex;
+        flex-direction: column;
+    }
+}

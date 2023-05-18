@@ -1,0 +1,47 @@
+
+.tweet-container {
+    width: 100%;
+    min-height: 100px;
+    height: auto;
+    display: flex;
+    margin-top: 15px;
+    padding-left: 15px;
+    border-bottom: 1px solid grey;
+    .tweet-icon {
+        img {
+            width: 50px;
+            height: 50px;
+            margin-right: 20px;
+        }
+    }
+
+    .tweet-user-post {
+        display: flex;
+        flex-direction: column;
+        .tweet-user-name {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            p {
+                margin-right: 30px;
+                font-size: 20px;
+                color: white;
+            }
+            span {
+                color: grey;
+            }
+        }
+        .tweet-user-content{ 
+            width: 100%;
+            min-height: 20px;
+            margin-bottom: 10px;
+            height: auto;
+        }
+        .tweet-user-post-reacts {
+            display: flex;
+            div {
+                margin-right: 20px;
+            }
+        }
+    }
+}
