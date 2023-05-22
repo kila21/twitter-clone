@@ -10,10 +10,11 @@ import { getUserInfoThunk } from '../../store/userInfo/userInfo.thunk';
 const Home = () => {
     const dispatch = useAppDispatch();
     const selector = useAppSelector((state) => state.userInfo)
+    const reversedPosts = selector.posts.slice().reverse()
 
     useEffect(() => {
         dispatch(getUserInfoThunk())
-    }, [])
+    }, [selector.posts])
 
     return (
         <div className='home-container'>
@@ -27,7 +28,7 @@ const Home = () => {
             </div>
 
             <div className='home-tweets'> 
-                {selector.posts.map((post,index) => {
+                {reversedPosts.map((post,index) => {
                     return <Tweet 
                     key={index} 
                     post={post} 

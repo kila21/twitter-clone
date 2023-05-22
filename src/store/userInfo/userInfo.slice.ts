@@ -1,10 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+export interface Post {
+    post: string,
+    likes: number,
+    shares: number
+}
+interface userInfoInitialState {
+    posts: Post[],
+    username: null | string,
+    email: string,
+    errors: any
+}
+
+const initialState: userInfoInitialState = {
     posts: [],
     username: null,
     email: '',
-    
     errors: null
 }
 
@@ -18,8 +29,9 @@ export const userInfoSlice = createSlice({
             state.username = action.payload.username;
             state.email = action.payload.email
         },
-        addNewPost: (state, action) => {
-
+        addNewPost: (state, action: PayloadAction<Post>) => {
+            // console.log(action.payload)
+            state.posts.push(action.payload)
         },
 
         setError: (state, action) => {
@@ -28,6 +40,6 @@ export const userInfoSlice = createSlice({
     }
 })
 
-export const { getUserInfo, setError } = userInfoSlice.actions
+export const { getUserInfo, setError, addNewPost } = userInfoSlice.actions
 
 export default userInfoSlice.reducer;
