@@ -5,6 +5,8 @@ import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import authReducer from './store/auth/auth.slice.ts'
+import userInfoReducer from './store/userInfo/userInfo.slice.ts'
+
 import App from './App.tsx'
 import './index.scss'
 import Twitter from './components/twitter/twitter.tsx'
@@ -12,7 +14,8 @@ import Twitter from './components/twitter/twitter.tsx'
 
 const store = configureStore({
     reducer: {
-      auth: authReducer
+      auth: authReducer,
+      userInfo: userInfoReducer
     }
 })
 
