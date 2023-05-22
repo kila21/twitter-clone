@@ -1,8 +1,19 @@
 
+import { useEffect } from 'react'
+import { collection, getDoc, doc} from 'firebase/firestore'
+
+
+import {auth, db } from '../../../config/firebase'
+
 import './tweet.scss'
 import userIcon from '../../../assets/images/user.png'
+import { useAppSelector } from '../../../store/hooks'
 
-const Tweet = () => {
+
+
+const Tweet = (props: any) => {
+ 
+
     return (
         <div className="tweet-container">
             <div className="tweet-icon">
@@ -11,28 +22,28 @@ const Tweet = () => {
 
             <div className='tweet-user-post'>
                 <div className='tweet-user-name'>
-                    <p>Ryan</p>
+                    <p>{props.username ? props.username : props.email}</p>
                     <span>May 18</span>
                 </div>
 
                 <div className='tweet-user-content'>
                     <p>
-                        User post! .......... smth
+                        {props.post.post}
                     </p>
                 </div>
 
                 <div className='tweet-user-post-reacts'>
                     <div className='react-comment'>
-                        <p>10</p>
+                        <p>{props.post.likes}</p>
                     </div>
 
                     <div className='react-share'>
-                        <p>20</p>
+                        <p>{props.post.shares}</p>
                     </div>
 
-                    <div className='react-like'>
+                    {/* <div className='react-like'>
                         <p>50</p>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
