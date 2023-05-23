@@ -25,14 +25,17 @@ const SignIn = () => {
     // for database
     const creatNewUserDocument = (email: string) => {
         const newUser = auth.currentUser!.uid
+        
         const usersCollection = doc(db,'users', newUser)
-        const userData = {
-            posts: [],
-            email: email,
-            username: '',
+        if(!usersCollection) {
+            const userData = {
+                posts: [],
+                email: email,
+                username: '',
+            }
+    
+            setDoc(usersCollection, userData)
         }
-
-        setDoc(usersCollection, userData)
     }
 
     const { register, handleSubmit, formState: {errors}} = useForm<SignInForm>()
