@@ -33,7 +33,7 @@
 }
 
 
-@media screen and (min-device-width: 1440px) and (max-device-width: 2450px) { 
+@media screen and (min-device-width: 1280px) and (max-device-width: 2560px) { 
     .twitter-container {
         .twitter-account-info {
             min-width: 300px;
@@ -44,6 +44,7 @@
 
 @media (max-width: 500px) {
     .twitter-container {
+        height: 88%;
         .twitter-account-info {
             display: none;
         }

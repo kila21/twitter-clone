@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { act } from "react-dom/test-utils";
 
 export interface Post {
     post: string,
@@ -33,13 +34,24 @@ export const userInfoSlice = createSlice({
             // console.log(action.payload)
             state.posts.push(action.payload)
         },
-
+        removePost: (state, action) => {
+            if(state.posts.length === 1) {
+                state.posts = []
+            }else {
+                const newPostsArray = state.posts.splice(action.payload, 1)
+                state.posts = newPostsArray
+            }
+        }
+        ,
         setError: (state, action) => {
             state.errors = action.payload
         },
+        clearError: (state) => {
+            state.errors = null
+        }
     }
 })
 
-export const { getUserInfo, setError, addNewPost } = userInfoSlice.actions
+export const { getUserInfo, setError, addNewPost, removePost ,clearError } = userInfoSlice.actions
 
 export default userInfoSlice.reducer;

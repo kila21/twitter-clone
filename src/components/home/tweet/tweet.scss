@@ -7,6 +7,35 @@
     margin-top: 15px;
     padding-left: 15px;
     border-bottom: 1px solid grey;
+    position: relative;
+    .remove-post-container {
+        position: absolute;
+        right: 20px;
+        top: 0px;
+        font-size: 30px;
+        font-weight: bold;
+        transform: rotate(90deg);
+        cursor: pointer;
+    }
+    .remove-post-hidden {
+        position: absolute;
+        font-size: 15px;
+        width: 100px;
+        height: 25px;
+      
+        flex-direction: column;
+        align-items: center;
+        top: 6px;
+        right: 50px;
+        background-color: black;
+        border: 1px solid white;
+        box-shadow: 1px;
+        display: none;
+    }
+    .remove-post-show {
+        display: flex;
+    }
+
     .tweet-icon {
         img {
             width: 50px;

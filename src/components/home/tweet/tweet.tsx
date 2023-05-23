@@ -1,21 +1,20 @@
 
-import { useEffect } from 'react'
-import { collection, getDoc, doc} from 'firebase/firestore'
-
-
-import {auth, db } from '../../../config/firebase'
-
 import './tweet.scss'
 import userIcon from '../../../assets/images/user.png'
-import { useAppSelector } from '../../../store/hooks'
-
-
+import { useState } from 'react'
 
 const Tweet = (props: any) => {
- 
+    const [showHidden, setShowHidden] = useState(false)
 
     return (
         <div className="tweet-container">
+            <div onClick={() => setShowHidden(!showHidden)} className='remove-post-container'>
+                ...
+            </div>
+            <div onClick={props.remove} className={showHidden ? 'remove-post-hidden remove-post-show' : 'remove-post-hidden'}>
+                    remove post
+            </div>
+
             <div className="tweet-icon">
                 <img src={userIcon}/>
             </div>
