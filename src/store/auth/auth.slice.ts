@@ -39,10 +39,13 @@ export const authSlice = createSlice({
            if(action.payload.user) {
                state.signInClicked = false
            }
+        },
+        signOut: (state) => {
+            state.user = false
         }
     }
 })
 
-export const { signInModalClick, signUpModalClick, signUp, signIn } = authSlice.actions
+export const { signInModalClick, signUpModalClick, signUp, signIn, signOut } = authSlice.actions
 
 export default authSlice.reducer

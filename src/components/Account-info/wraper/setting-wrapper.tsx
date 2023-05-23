@@ -7,8 +7,14 @@ import './setting-wrapper.scss'
 import logoutIcon from '../../../assets/images/logout-white.svg'
 import settingIcon from '../../../assets/images/setting-white.svg'
 import userIcon from '../../../assets/images/user.png'
+import { useAppDispatch } from '../../../store/hooks'
+import { useNavigate } from 'react-router-dom'
+import { userLogOut } from '../../../store/auth/auth.thunk'
 
 const SettingWrapper = () => {
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+
     const [active, setActive] = useState(false)
     const [maxWidth, setMaxWidth] = useState(window.innerWidth)
     const [userClick, setUserClick] = useState(false)
@@ -27,6 +33,11 @@ const SettingWrapper = () => {
             setUserClick(false)
         }
     },[maxWidth])
+
+    const logOut = () => {
+        dispatch(userLogOut())
+        navigate('/')
+    }
 
     const returnedValue = () => {
         if(maxWidth < 500) {
@@ -48,7 +59,7 @@ const SettingWrapper = () => {
 
                         <div className='help-hidden-list-item'>
                             <img src={logoutIcon} alt="logout icon" />
-                            <h3>Log Out</h3>
+                            <h3 onClick={logOut}>Log Out</h3>
                         </div>
                     </div>
                 </div>
@@ -68,7 +79,7 @@ const SettingWrapper = () => {
                                 </div>
 
                                 <div>
-                                    <h3>Log Out</h3>
+                                    <h3 onClick={logOut}>Log Out</h3>
                                 </div>
                             </div>
                         )
