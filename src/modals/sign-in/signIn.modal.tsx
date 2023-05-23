@@ -9,7 +9,8 @@ import { signInModalClick } from '../../store/auth/auth.slice'
 import { userSignIn } from '../../store/auth/auth.thunk'
 import { RootState } from '../../main'
 import { useNavigate } from 'react-router'
-import { useEffect} from 'react'
+import { doc, setDoc } from 'firebase/firestore'
+import { auth, db } from '../../config/firebase'
 
 const SignIn = () => {
 
@@ -20,11 +21,26 @@ const SignIn = () => {
         password: string
     }
 
+
+    // for database
+    const creatNewUserDocument = (email: string) => {
+        const newUser = auth.currentUser!.uid
+        const usersCollection = doc(db,'users', newUser)
+        const userData = {
+            posts: [],
+            email: email,
+            username: '',
+        }
+
+        setDoc(usersCollection, userData)
+    }
+
     const { register, handleSubmit, formState: {errors}} = useForm<SignInForm>()
     const onSubmit = (data: SignInForm) => {
         dispatch(userSignIn(data.email, data.password))
         .then((res:any)=>{
             if(res.payload.user) {
+                creatNewUserDocument(data.email)
                 navigate('/home')
             }
         })
