@@ -16,10 +16,9 @@ const Home = () => {
 
     const navigate = useNavigate()
 
+
     const removeHandler = (post: any) => { 
         const newArray = reversedPosts.slice().reverse();
-        console.log(newArray)
-        console.log(newArray.indexOf(post))
         dispatch(deletePostInCollection(post, newArray.indexOf(post)))
     }
 

@@ -39,9 +39,15 @@
 
 
 
-@media screen and (min-device-width: 1440px) and (max-device-width: 2450px) { 
+@media screen and (min-device-width: 1280px) and (max-device-width: 2560px) { 
     .account-info_container {
         min-width: 300px;
+        .account-info_list {
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: #888 #eee;
+        }
+    
     }
 }
 

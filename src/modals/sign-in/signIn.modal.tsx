@@ -32,6 +32,8 @@ const SignIn = () => {
                 posts: [],
                 email: email,
                 username: '',
+                following: 0,
+                followers: 0
             }
     
             setDoc(usersCollection, userData)

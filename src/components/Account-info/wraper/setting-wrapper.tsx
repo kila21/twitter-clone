@@ -1,19 +1,24 @@
 
 import { useEffect, useState } from 'react'
 
-import './setting-wrapper.scss'
-
+import { useNavigate } from 'react-router-dom'
 
 import logoutIcon from '../../../assets/images/logout-white.svg'
 import settingIcon from '../../../assets/images/setting-white.svg'
 import userIcon from '../../../assets/images/user.png'
-import { useAppDispatch } from '../../../store/hooks'
-import { useNavigate } from 'react-router-dom'
+
+
+import './setting-wrapper.scss'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { userLogOut } from '../../../store/auth/auth.thunk'
+import { RootState } from '../../../main'
+import ChangeUsernameModal from '../../../modals/changeUsername/changeUsername.modal'
+import { changeUsernameModalClick } from '../../../store/userInfo/userInfo.slice'
 
 const SettingWrapper = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    const selector = useAppSelector((state: RootState) => state.userInfo)
 
     const [active, setActive] = useState(false)
     const [maxWidth, setMaxWidth] = useState(window.innerWidth)
@@ -25,8 +30,6 @@ const SettingWrapper = () => {
         }
 
         window.addEventListener('resize', handleResize)
-
-        console.log(maxWidth)
         return () => {
             window.removeEventListener('resize', handleResize)
             setActive(false)
@@ -58,6 +61,11 @@ const SettingWrapper = () => {
                         </div>
 
                         <div className='help-hidden-list-item'>
+                            <img src={settingIcon} alt="setting Icon" />
+                            <h3 onClick={() => dispatch(changeUsernameModalClick(true))}>Change Username</h3>
+                        </div>
+
+                        <div className='help-hidden-list-item'>
                             <img src={logoutIcon} alt="logout icon" />
                             <h3 onClick={logOut}>Log Out</h3>
                         </div>
@@ -69,7 +77,7 @@ const SettingWrapper = () => {
             return (
                 <div className='account-info_help-user'>
                     <img onClick={() => setUserClick(!userClick)} src={userIcon} alt='user Icon'/>
-                    {maxWidth > 1280 && <span>Luka</span>}
+                    {maxWidth > 1280 && <span>{selector.username || selector.email}</span>}
                     {
                         userClick && 
                         (
@@ -79,8 +87,13 @@ const SettingWrapper = () => {
                                 </div>
 
                                 <div>
+                                    <h3 onClick={() => dispatch(changeUsernameModalClick(true))}>Change Username</h3>
+                                </div>
+
+                                <div>
                                     <h3 onClick={logOut}>Log Out</h3>
                                 </div>
+                        
                             </div>
                         )
                     }

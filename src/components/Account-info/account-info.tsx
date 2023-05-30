@@ -19,10 +19,13 @@ import homeIcon from '../../assets/images/home.svg'
 import searchIcon from '../../assets/images/search.svg'
 import notificationIcon from '../../assets/images/notification.svg'
 import messageIcon from '../../assets/images/message.svg'
+import { useAppSelector } from '../../store/hooks'
+import { RootState } from '../../main'
 
 
 const AccountInfo = (props: any) => {
     const [maxWidth, setMaxWidth] = useState(window.innerWidth)
+    const seletor = useAppSelector((state: RootState) => state.userInfo)
 
     useEffect(() => {
         const handleResize = () => {
@@ -30,8 +33,6 @@ const AccountInfo = (props: any) => {
         }
 
         window.addEventListener('resize', handleResize)
-
-        console.log(maxWidth)
         return () => {
             window.removeEventListener('resize', handleResize)
         }
@@ -67,10 +68,10 @@ const AccountInfo = (props: any) => {
             ( 
             <div className='account-info_user'>
                 <img src={autoUserImage} alt='auto user Image'/>
-                <p className='account-info_user-name'>Luka</p>
+                <p className='account-info_user-name'>{seletor.username || seletor.email}</p>
                 <div className='account-info_user-following'>
-                    <p>0 <span>following</span></p>
-                    <p>10 <span>followers</span></p>
+                    <p>{seletor.following} <span>following</span></p>
+                    <p>{seletor.followers} <span>followers</span></p>
                 </div>
             </div>
             )
@@ -89,7 +90,7 @@ const AccountInfo = (props: any) => {
                 { listItem('Verified Orgs', verifiedIcon)}
             </div>
        
-            <SettingWrapper />
+            <SettingWrapper/>
             
         </div>
     )
