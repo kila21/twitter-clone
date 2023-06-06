@@ -29,8 +29,8 @@ export const addNewPostInCollectionThunk = (post: string) => {
             try {
                 const data: Post = {
                         post: post,
-                        likes: 0,
-                        shares: 0
+                        likes: [],
+                        shares: [],
                     }
                 await updateDoc(userCollection,{
                     posts: arrayUnion(data)

@@ -1,10 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { act } from "react-dom/test-utils";
 
 export interface Post {
     post: string,
-    likes: number,
-    shares: number
+    likes: string[],
+    shares: string[]
 }
 interface userInfoInitialState {
     changeUsernameModal: boolean,
@@ -39,7 +38,6 @@ export const userInfoSlice = createSlice({
             state.following = action.payload.following
         },
         addNewPost: (state, action: PayloadAction<Post>) => {
-            // console.log(action.payload)
             state.posts.push(action.payload)
         },
         removePost: (state, action) => {
