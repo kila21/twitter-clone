@@ -11,7 +11,7 @@ import shareIconWhite from '../../../assets/interact-icons/share-white.svg';
 import { RootState } from '../../../main';
 import { useAppSelector } from '../../../store/hooks';
 
-import { RemoveLikedPostFromFirbase, UserHaveLikedOrNot, AddLikedPostInFirabase } from './userInteractFunctions';
+import { RemoveLikedPostFromFirbase, UserHaveLikedOrNot, AddLikedPostInFirabase, getPostLikes } from './userInteractFunctions';
 import { auth, db } from '../../../config/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 
@@ -21,6 +21,7 @@ import './tweet.scss'
 const Tweet = (props: any) => {
     const [showHidden, setShowHidden] = useState(false)
     const [liked, setLiked] = useState(false)
+    const [countOfLikes, setCountofLikes] = useState(0)
 
     const selector = useAppSelector((state: RootState) => state.userInfo)
     // let postAuthorID = ''
@@ -46,6 +47,9 @@ const Tweet = (props: any) => {
 
     useEffect(() => {
         getInfosForLikePost()
+        getPostLikes(props.uid, props.post).then(res=>{
+            setCountofLikes(res)
+        })
     }, [])
     
     return (
@@ -89,6 +93,7 @@ const Tweet = (props: any) => {
                         <img onClick={() => {
                             AddLikedPostInFirabase(props.uid, props.post)
                             setLiked(true)
+                            setCountofLikes(countOfLikes+1)
                         }} 
                         src={likeIconWhite}/>}
 
@@ -97,9 +102,10 @@ const Tweet = (props: any) => {
                         <img onClick={() => { 
                             RemoveLikedPostFromFirbase(props.uid, props.post)
                             setLiked(false)
+                            setCountofLikes(countOfLikes-1)
                         } }
                         src={likeIconRed} />}
-                        <p>{props.likes.length}</p>
+                        <p>{countOfLikes}</p>
                     </div>
                 </div>
             </div>

@@ -58,19 +58,18 @@ const Home = () => {
 
         const newPostsFordisplay = randomPosts
         const data: any = {
-            ...selector.posts[selector.posts.length-1],
+            ...selector.posts?.[selector.posts.length-1],
             username: selector.username,
             email: selector.email,
             uid: auth.currentUser!.uid
         }
-        console.log(randomPosts[randomPosts.length-1].post)
-        console.log(data.post)
-        if(randomPosts[randomPosts.length-1].post !== data.post) {
+
+        if(randomPosts[randomPosts.length-1]?.post !== data?.post) {
             newPostsFordisplay.push(data)
             setRandomPosts(newPostsFordisplay)
         }
     // }, [reversedPosts?.length])
-    },[selector.posts.length]);
+    },[selector.posts?.length,]);
 
     useEffect(()=>{ 
         getUsers()

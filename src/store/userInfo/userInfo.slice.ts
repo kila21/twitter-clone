@@ -7,7 +7,7 @@ export interface Post {
 }
 interface userInfoInitialState {
     changeUsernameModal: boolean,
-    posts: Post[],
+    posts: Post[] | null,
     username: null | string,
     email: string,
     following: number,
@@ -17,7 +17,7 @@ interface userInfoInitialState {
 
 const initialState: userInfoInitialState = {
     changeUsernameModal: false,
-    posts: [],
+    posts: null,
     username: null,
     email: '',
     following: 0,
@@ -38,14 +38,18 @@ export const userInfoSlice = createSlice({
             state.following = action.payload.following
         },
         addNewPost: (state, action: PayloadAction<Post>) => {
-            state.posts.push(action.payload)
+            if(state.posts) {
+                state.posts.push(action.payload)
+            }
         },
         removePost: (state, action) => {
-            if(state.posts.length === 1) {
-                state.posts = []
-            }else {
-                const newPostsArray = state.posts.splice(action.payload, 1)
-                state.posts = newPostsArray
+            if(state.posts) {
+                if(state.posts.length === 1) {
+                    state.posts = []
+                }else {
+                    const newPostsArray = state.posts?.splice(action.payload, 1)
+                    state.posts = newPostsArray
+                }
             }
         }
         ,
