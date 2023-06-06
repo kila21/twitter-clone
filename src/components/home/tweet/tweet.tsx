@@ -23,22 +23,24 @@ const Tweet = (props: any) => {
     const [liked, setLiked] = useState(false)
 
     const selector = useAppSelector((state: RootState) => state.userInfo)
-    let postAuthorID = ''
+    // let postAuthorID = ''
     let interacterUserID = ''
 
     const getInfosForLikePost = async () => {
         const collect = collection(db, 'users');
         const snap = await getDocs(collect)
+
         snap.docs.map(doc => {
-            if(doc.data().email === props.email ) {
-                postAuthorID = doc.id
-            }
+            const authorEmail = doc.data().email
+            // if(authorEmail === props.email ) {
+            //     postAuthorID = doc.id
+            // }
             if(auth.currentUser?.email === doc.data().email) {
                 interacterUserID = doc.id
             }
         })
 
-        const isLiked =  await UserHaveLikedOrNot(postAuthorID, props.post)
+        const isLiked =  await UserHaveLikedOrNot(props.uid, props.post)
         setLiked(isLiked)
     }
 
@@ -85,7 +87,7 @@ const Tweet = (props: any) => {
                     <div className='react-like'>
                         {!liked && 
                         <img onClick={() => {
-                            AddLikedPostInFirabase(postAuthorID, props.post)
+                            AddLikedPostInFirabase(props.uid, props.post)
                             setLiked(true)
                         }} 
                         src={likeIconWhite}/>}
@@ -93,7 +95,7 @@ const Tweet = (props: any) => {
 
                         {liked && 
                         <img onClick={() => { 
-                            RemoveLikedPostFromFirbase(postAuthorID, props.post)
+                            RemoveLikedPostFromFirbase(props.uid, props.post)
                             setLiked(false)
                         } }
                         src={likeIconRed} />}

@@ -6,7 +6,7 @@ import NewTweet from './newTweet/newTweet';
 import Tweet from './tweet/tweet';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { auth, db } from '../../config/firebase';
-import { deletePostInCollection, getUserInfoThunk } from '../../store/userInfo/userInfo.thunk';
+import { getUserInfoThunk } from '../../store/userInfo/userInfo.thunk';
 
 import './home.scss'
 import { RandomPost } from '../../types/RandomPost.type';
@@ -17,7 +17,7 @@ import { collection, getDocs } from 'firebase/firestore';
 const Home = () => {
     const dispatch = useAppDispatch();
     const selector = useAppSelector((state) => state.userInfo)
-    const [posts, setPosts] = useState<RandomPost[]>([]);
+    const [randomPosts, setRandomPosts] = useState<RandomPost[]>([]);
     
     // const reversedPosts = selector?.posts?.slice().reverse()
     // let posts: RandomPost[] = [];
@@ -47,7 +47,7 @@ const Home = () => {
                 newPostsAray.push(postForRandom)
             })
         })
-        setPosts(newPostsAray);
+        setRandomPosts(newPostsAray);
       
     }
 
@@ -55,9 +55,26 @@ const Home = () => {
         if(auth.currentUser) {
             dispatch(getUserInfoThunk())
         }
-        getUsers()
+
+        const newPostsFordisplay = randomPosts
+        const data: any = {
+            ...selector.posts[selector.posts.length-1],
+            username: selector.username,
+            email: selector.email,
+            uid: auth.currentUser!.uid
+        }
+        console.log(randomPosts[randomPosts.length-1].post)
+        console.log(data.post)
+        if(randomPosts[randomPosts.length-1].post !== data.post) {
+            newPostsFordisplay.push(data)
+            setRandomPosts(newPostsFordisplay)
+        }
     // }, [reversedPosts?.length])
-    },[selector.posts]);
+    },[selector.posts.length]);
+
+    useEffect(()=>{ 
+        getUsers()
+    },[])
 
     return (
         <div className='home-container'>
@@ -71,7 +88,7 @@ const Home = () => {
             </div>
 
             <div className='home-tweets'> 
-                {posts.length > 0 && posts.map((p: RandomPost,index: number) => {
+                {randomPosts.length > 0 && randomPosts.map((p: RandomPost,index: number) => {
                     return <Tweet 
                     // remove={() => removeHandler(post)}
                     key={index} 

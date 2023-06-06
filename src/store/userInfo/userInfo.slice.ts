@@ -2,8 +2,8 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export interface Post {
     post: string,
-    likes: string[],
-    shares: string[]
+    likes: [],
+    shares: []
 }
 interface userInfoInitialState {
     changeUsernameModal: boolean,
