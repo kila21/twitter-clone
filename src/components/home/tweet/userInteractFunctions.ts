@@ -13,6 +13,8 @@ import { Post } from '../../../store/userInfo/userInfo.slice';
 // in userslikedPost array  field.
 export const AddLikedPostInFirabase = async (postAuthor: string, post: string) => {
     const userCollection = doc(db, 'users', auth.currentUser!.uid);
+    const userCollectionSnapshot = await getDoc(userCollection);
+
     const postAuthorCollection = doc(db, 'users', postAuthor);
     const postAurhorCollectionSnapshot = await getDoc(postAuthorCollection)
 
@@ -20,24 +22,36 @@ export const AddLikedPostInFirabase = async (postAuthor: string, post: string) =
         post: post,
         id: postAuthor
     }
-    await updateDoc(userCollection, {
-        likedPosts: arrayUnion(data)
-    })
+
+    let postIsLiked = false;
+    if(userCollectionSnapshot.exists()) {
+        userCollectionSnapshot.data().likedPosts.map((item: any) => {
+            if(item === auth.currentUser!.uid) {
+                postIsLiked = true
+            }
+        })
+    }
+    if(!postIsLiked) {
+        await updateDoc(userCollection, {
+            likedPosts: arrayUnion(data)
+        })
+    }
 
 
     // vamowmebt arsebobs tuara snapshoti da shemdeg vaapdeitebt postis arrays likebs.
     if(postAurhorCollectionSnapshot.exists()) {
         const updatedArray = postAurhorCollectionSnapshot.data().posts
-        postAurhorCollectionSnapshot.data().posts.map((p: any, index: number) => {
-            if(p.post === post) {
-                updatedArray[index].likes.push(auth.currentUser!.uid)
-            }
-        })
-        
-        await updateDoc(postAuthorCollection, {
-            posts: updatedArray
-        })
-        
+        if(!postIsLiked) {
+            postAurhorCollectionSnapshot.data().posts.map((p: any, index: number) => {
+                if(p.post === post) {
+                    updatedArray[index].likes.push(auth.currentUser!.uid)
+                }
+            })
+            
+            await updateDoc(postAuthorCollection, {
+                posts: updatedArray
+            })
+        }
     }
 
 }
@@ -104,6 +118,7 @@ export const getPostLikes = async (postAuthor: string, post: string) => {
     if(snap.exists()) {
         snap.data().posts.map((p: Post) => {
             if(p.post === post) {
+                // console.log(p)
                 returnedValue = p.likes.length
             }
         })
