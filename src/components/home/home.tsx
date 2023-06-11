@@ -12,6 +12,7 @@ import './home.scss'
 import { RandomPost } from '../../types/RandomPost.type';
 
 import { collection, getDocs } from 'firebase/firestore';
+import { Post } from '../../store/userInfo/userInfo.slice';
 
 
 const Home = () => {
@@ -35,45 +36,72 @@ const Home = () => {
         const snap = await getDocs(users)
         const newPostsAray: RandomPost[] = []
         snap.docs.map((item) => {
-            item.data().posts.map((i:any) => {
-                const postForRandom: RandomPost = {
-                    post: i.post, 
-                    likes: i.likes,
-                    shares: i.shares,
-                    username: item.data()?.username,
-                    email: item.data()?.email,
-                    uid: item.id
+            if(item.data().posts.length >= 3) {
+                const index = item.data().posts.length-1;
+
+                for(let i = 0; i < 3; i++)  {
+                    const data = {
+                        ...item.data().posts[index-i],
+                        uid: item.id,
+                        email: item.data().email,
+                        username: item.data().username,
+                    }
+                    newPostsAray.push(data)
+                   
                 }
-                newPostsAray.push(postForRandom)
-            })
+            }else {
+                const randomPostsArray: RandomPost[] = [];
+                item.data().posts.map((i: Post) => {
+                    const data = {
+                        ...i,
+                        uid: item.id,
+                        email: item.data().email,
+                        username: item.data().username
+                    }
+                    randomPostsArray.push(data)
+                })
+                const reversedPosts: RandomPost[] = randomPostsArray?.slice().reverse()
+                newPostsAray.push(...reversedPosts)
+               
+            }
         })
+
         setRandomPosts(newPostsAray);
       
     }
+    useEffect(() => {
+        getUsers()
+    },[])
 
     useEffect(() => {
         if(auth.currentUser) {
             dispatch(getUserInfoThunk())
         }
 
-        const newPostsFordisplay = randomPosts
-        const data: any = {
-            ...selector.posts?.[selector.posts.length-1],
-            username: selector.username,
-            email: selector.email,
-            uid: auth.currentUser!.uid
+        if(selector.posts && selector.posts.length > 0) {
+            let pushNewPost = false;
+            for(let p = 0; p <= randomPosts.length-1; p++) {
+                if(randomPosts[p].post === selector.posts[selector.posts.length-1].post) {
+                    pushNewPost = false;
+                    break
+                }
+                pushNewPost = true;
+            }
+            if(pushNewPost) {
+                const data: RandomPost = {
+                    ...selector.posts[selector.posts.length-1],
+                    uid: auth.currentUser!.uid,
+                    username: selector.username,
+                    email: selector.email
+                }
+                const newArray = [data,...randomPosts]
+               
+                setRandomPosts(newArray)
+            }
         }
 
-        if(randomPosts[randomPosts.length-1]?.post !== data?.post) {
-            newPostsFordisplay.push(data)
-            setRandomPosts(newPostsFordisplay)
-        }
-    // }, [reversedPosts?.length])
-    },[selector.posts?.length,]);
+    },[selector.posts?.length]);
 
-    useEffect(()=>{ 
-        getUsers()
-    },[])
 
     return (
         <div className='home-container'>
@@ -87,10 +115,11 @@ const Home = () => {
             </div>
 
             <div className='home-tweets'> 
-                {randomPosts.length > 0 && randomPosts.map((p: RandomPost,index: number) => {
+                {randomPosts.length > 0 && randomPosts?.map((p: any,index: number) => {
+                    console.log(randomPosts)
                     return <Tweet 
                     // remove={() => removeHandler(post)}
-                    key={index} 
+                    key={index+p.post} 
                     post={p.post} 
                     username={p.username} 
                     email={p.email}

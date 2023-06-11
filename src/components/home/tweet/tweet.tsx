@@ -48,8 +48,10 @@ const Tweet = (props: any) => {
     useEffect(() => {
         getInfosForLikePost()
         getPostLikes(props.uid, props.post).then(res=>{
+            console.log(res)
             setCountofLikes(res)
         })
+        
     }, [])
     
     return (
@@ -85,7 +87,7 @@ const Tweet = (props: any) => {
 
                     <div className='react-share'>
                         <img  src={shareIconWhite}/>
-                        <p>{props.shares.length}</p>
+                        <p>{props.shares?.length}</p>
                     </div>
 
                     <div className='react-like'>
