@@ -9,13 +9,15 @@ import shareIconWhite from '../../../assets/interact-icons/share-white.svg';
 // import shareIconRed from '../../../assets/interact-icons/share-green.svg';
 
 import { RootState } from '../../../main';
-import { useAppSelector } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 
 import { RemoveLikedPostFromFirbase, UserHaveLikedOrNot, AddLikedPostInFirabase, getPostLikes } from './userInteractFunctions';
-import { auth, db } from '../../../config/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { auth } from '../../../config/firebase';
+
 
 import './tweet.scss'
+import { deletePostInCollection } from '../../../store/userInfo/userInfo.thunk';
+import { Post, addLike } from '../../../store/userInfo/userInfo.slice';
 
 
 const Tweet = (props: any) => {
@@ -24,42 +26,38 @@ const Tweet = (props: any) => {
     const [countOfLikes, setCountofLikes] = useState(0)
 
     const selector = useAppSelector((state: RootState) => state.userInfo)
-    // let postAuthorID = ''
-    let interacterUserID = ''
-
+    const dispatch = useAppDispatch()
+    
     const getInfosForLikePost = async () => {
-        const collect = collection(db, 'users');
-        const snap = await getDocs(collect)
-
-        snap.docs.map(doc => {
-            const authorEmail = doc.data().email
-            // if(authorEmail === props.email ) {
-            //     postAuthorID = doc.id
-            // }
-            if(auth.currentUser?.email === doc.data().email) {
-                interacterUserID = doc.id
-            }
-        })
-
         const isLiked =  await UserHaveLikedOrNot(props.uid, props.post)
         setLiked(isLiked)
     }
 
     useEffect(() => {
-        getInfosForLikePost()
-        getPostLikes(props.uid, props.post).then(res=>{
-            console.log(res)
-            setCountofLikes(res)
-        })
+        if(props.uid && props.post) {
+            getInfosForLikePost()
+            getPostLikes(props.uid, props.post).then(res=>{
+                setCountofLikes(res)
+            })
+        }
         
     }, [])
+
+    const removePost = () => {
+        const data: Post = {
+            post: props.post,
+            likes: props.likes,
+            shares: props.shares,
+        }
+        dispatch(deletePostInCollection(data))
+    }
     
     return (
         <div className="tweet-container">
            {(auth.currentUser?.uid === props.uid)  && <div onClick={() => setShowHidden(!showHidden)} className='remove-post-container'>
                 ...
             </div>}
-            <div className={showHidden ? 'remove-post-hidden remove-post-show' : 'remove-post-hidden'}>
+            <div onClick={() => removePost()} className={showHidden ? 'remove-post-hidden remove-post-show' : 'remove-post-hidden'}>
                     remove post
             </div>
 
@@ -95,6 +93,7 @@ const Tweet = (props: any) => {
                         <img onClick={() => {
                             AddLikedPostInFirabase(props.uid, props.post)
                             setLiked(true)
+                            dispatch(addLike(props.post))
                             setCountofLikes(countOfLikes+1)
                         }} 
                         src={likeIconWhite}/>}

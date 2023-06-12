@@ -1,13 +1,7 @@
 
-import { arrayRemove, arrayUnion, doc, documentId, getDoc, updateDoc } from 'firebase/firestore';
+import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../../../config/firebase';
 import { Post } from '../../../store/userInfo/userInfo.slice';
-
-
-
-// export const likePost = async (postAuthor: string, post: string) => {
-//     await AddLikedPostInFirabase(postAuthor, post)
-// }
 
 
 // in userslikedPost array  field.
@@ -96,8 +90,6 @@ export const UserHaveLikedOrNot = async (postAuthor: string, post: string) => {
     
     const userCollection = doc(db, 'users', auth.currentUser!.uid);
     const snapshot = await getDoc(userCollection)
-    // console.log(snapshot.data())
-
     if(snapshot.exists()){
         snapshot.data().likedPosts.map((item: {id: string, post: string})=>{
             if(item.id === data.id && item.post === data.post) {
@@ -112,13 +104,11 @@ export const UserHaveLikedOrNot = async (postAuthor: string, post: string) => {
 export const getPostLikes = async (postAuthor: string, post: string) => {
     const userCollection = doc(db, 'users', postAuthor)
     const snap = await getDoc(userCollection)
-
     let returnedValue = 0;
 
     if(snap.exists()) {
         snap.data().posts.map((p: Post) => {
             if(p.post === post) {
-                // console.log(p)
                 returnedValue = p.likes.length
             }
         })

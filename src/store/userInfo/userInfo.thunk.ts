@@ -48,15 +48,40 @@ export const addNewPostInCollectionThunk = (post: string) => {
 
 
 
-export const deletePostInCollection = (post: any, index: number) => {
+export const deletePostInCollection = (data: Post) => {
     return async (dispatch: any) => {
         if(auth.currentUser?.uid) {
             const userCollection = doc(db, 'users', auth.currentUser.uid)
+            console.log(data)
             await updateDoc(userCollection, {
-                posts: arrayRemove(post)
+                posts: arrayRemove(data)
             })
-            dispatch(removePost(index))
+
+            // if user have like his(this) post, this will remove from likedposts array in firabse.
+            const dataForLikedPostsRemove = {
+                id: auth.currentUser.uid,
+                post: data.post
+            }
+            await updateDoc(userCollection, {
+                likedPosts: arrayRemove(dataForLikedPostsRemove)
+            })
+
+            // users who liked post
+            data.likes.map((item)=>{
+                const collection = doc(db,'users', item);
+                const deleteData = {
+                    id: auth.currentUser!.uid,
+                    post: data.post
+                }
+                updateDoc(collection, {
+                    likedPosts: arrayRemove(deleteData)
+                })
+            })
+
+            //dispatch action
+            dispatch(removePost(data))
         }
     }
+    
 }
 

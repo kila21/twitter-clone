@@ -19,59 +19,51 @@ const Home = () => {
     const dispatch = useAppDispatch();
     const selector = useAppSelector((state) => state.userInfo)
     const [randomPosts, setRandomPosts] = useState<RandomPost[]>([]);
-    
-    // const reversedPosts = selector?.posts?.slice().reverse()
-    // let posts: RandomPost[] = [];
-
+ 
     const navigate = useNavigate()
 
-
-    // const removeHandler = (post: any) => { 
-    //     const newArray = reversedPosts.slice().reverse();
-    //     dispatch(deletePostInCollection(post, newArray.indexOf(post)))
-    // }
-
     const getUsers = async () => {
-        const users = collection(db, 'users')
-        const snap = await getDocs(users)
-        const newPostsAray: RandomPost[] = []
-        snap.docs.map((item) => {
-            if(item.data().posts.length >= 3) {
-                const index = item.data().posts.length-1;
-
-                for(let i = 0; i < 3; i++)  {
-                    const data = {
-                        ...item.data().posts[index-i],
-                        uid: item.id,
-                        email: item.data().email,
-                        username: item.data().username,
+        setTimeout(async () => {
+            const users = collection(db, 'users')
+            const snap = await getDocs(users)
+            const newPostsAray: RandomPost[] = []
+            snap.docs.map((item) => {
+                if(item.data().posts.length >= 3) {
+                    const index = item.data().posts.length-1;
+                    for(let i = 0; i < 3; i++)  {
+                        const data = {
+                            ...item.data().posts[index-i],
+                            uid: item.id,
+                            email: item.data().email,
+                            username: item.data().username,
+                        }
+                        newPostsAray.push(data)
+                    
                     }
-                    newPostsAray.push(data)
-                   
+                }else {
+                    const randomPostsArray: RandomPost[] = [];
+                    item.data().posts.map((i: Post) => {
+                        console.log(item.data())
+                        const data = {
+                            ...i,
+                            uid: item.id,
+                            email: item.data().email,
+                            username: item.data().username
+                        }
+                        randomPostsArray.push(data)
+                    })
+                    const reversedPosts: RandomPost[] = randomPostsArray?.slice().reverse()
+                    newPostsAray.push(...reversedPosts)
+                
                 }
-            }else {
-                const randomPostsArray: RandomPost[] = [];
-                item.data().posts.map((i: Post) => {
-                    const data = {
-                        ...i,
-                        uid: item.id,
-                        email: item.data().email,
-                        username: item.data().username
-                    }
-                    randomPostsArray.push(data)
-                })
-                const reversedPosts: RandomPost[] = randomPostsArray?.slice().reverse()
-                newPostsAray.push(...reversedPosts)
-               
-            }
-        })
-
-        setRandomPosts(newPostsAray);
-      
+            })
+            console.log(newPostsAray)
+            setRandomPosts(newPostsAray);
+    },1500) 
     }
     useEffect(() => {
         getUsers()
-    },[])
+    },[selector.posts?.length,selector.posts])
 
     useEffect(() => {
         if(auth.currentUser) {
@@ -116,9 +108,7 @@ const Home = () => {
 
             <div className='home-tweets'> 
                 {randomPosts.length > 0 && randomPosts?.map((p: any,index: number) => {
-                    console.log(randomPosts)
-                    return <Tweet 
-                    // remove={() => removeHandler(post)}
+                    return <Tweet
                     key={index+p.post} 
                     post={p.post} 
                     username={p.username} 

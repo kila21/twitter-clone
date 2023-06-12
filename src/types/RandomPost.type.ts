@@ -1,8 +1,8 @@
 
 export interface RandomPost {
     post: string,
-    likes: [],
-    shares: [],
+    likes: string[],
+    shares: string[],
     username: string | null;
     email: string;
     uid: string;

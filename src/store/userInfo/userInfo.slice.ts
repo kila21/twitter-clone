@@ -1,9 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { auth } from "../../config/firebase";
+
 
 export interface Post {
     post: string,
-    likes: [],
-    shares: []
+    likes: string[],
+    shares: string[]
 }
 interface userInfoInitialState {
     changeUsernameModal: boolean,
@@ -37,6 +39,23 @@ export const userInfoSlice = createSlice({
             state.followers = action.payload.followers;
             state.following = action.payload.following
         },
+        addLike: (state,action) => {
+            if(state.posts) {
+                const newArray = state.posts;
+                const forStateUpdate = newArray.map((item)=>{
+                    if(item.post === action.payload) {
+                        console.log(item)
+                        const updated = item
+                        updated.likes.push(auth.currentUser!.uid)
+                        return updated
+
+                    }
+                    return item
+                })
+                state.posts = forStateUpdate
+            }
+        },
+
         addNewPost: (state, action: PayloadAction<Post>) => {
             if(state.posts) {
                 state.posts.push(action.payload)
@@ -47,7 +66,13 @@ export const userInfoSlice = createSlice({
                 if(state.posts.length === 1) {
                     state.posts = []
                 }else {
-                    const newPostsArray = state.posts?.splice(action.payload, 1)
+                    const newPostsArray = state.posts
+                    state.posts.map((post, index)=>{
+                        if(post.post === action.payload.post) {
+                            newPostsArray.splice(index, 1)
+                        }
+                    })
+                    // const newPostsArray = state.posts?.splice(action.payload, 1)
                     state.posts = newPostsArray
                 }
             }
@@ -69,6 +94,6 @@ export const userInfoSlice = createSlice({
     }
 })
 
-export const { getUserInfo, setError, addNewPost, removePost ,clearError, changeUsernameModalClick, setUsername } = userInfoSlice.actions
+export const { getUserInfo, setError, addNewPost, removePost ,clearError, changeUsernameModalClick, setUsername, addLike } = userInfoSlice.actions
 
 export default userInfoSlice.reducer;
