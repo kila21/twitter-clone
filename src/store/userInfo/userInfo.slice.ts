@@ -33,11 +33,13 @@ export const userInfoSlice = createSlice({
     initialState,
     reducers: {
         getUserInfo: (state, action) => {
-            state.posts = action.payload.posts;
-            state.username = action.payload.username;
-            state.email = action.payload.email;
-            state.followers = action.payload.followers;
-            state.following = action.payload.following
+            if(action.payload) {
+                state.posts = action.payload.posts;
+                state.username = action.payload.username;
+                state.email = action.payload.email;
+                state.followers = action.payload.followers;
+                state.following = action.payload.following
+            }
         },
         addLike: (state,action) => {
             if(state.posts) {
@@ -90,10 +92,23 @@ export const userInfoSlice = createSlice({
 
         setUsername: (state, action) => {
             state.username = action.payload
+        },
+        setEmail: (state,action) => {
+            state.username = action.payload
         }
     }
 })
 
-export const { getUserInfo, setError, addNewPost, removePost ,clearError, changeUsernameModalClick, setUsername, addLike } = userInfoSlice.actions
+export const   { 
+    getUserInfo, 
+    setError, 
+    addNewPost,
+    removePost,
+    clearError,
+    changeUsernameModalClick, 
+    setUsername, 
+    addLike,
+    setEmail
+} = userInfoSlice.actions
 
 export default userInfoSlice.reducer;

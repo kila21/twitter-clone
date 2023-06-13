@@ -9,8 +9,9 @@ import { signInModalClick } from '../../store/auth/auth.slice'
 import { userSignIn } from '../../store/auth/auth.thunk'
 import { RootState } from '../../main'
 import { useNavigate } from 'react-router'
-import { doc, setDoc } from 'firebase/firestore'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { auth, db } from '../../config/firebase'
+import { setEmail } from '../../store/userInfo/userInfo.slice'
 
 const SignIn = () => {
 
@@ -23,19 +24,23 @@ const SignIn = () => {
 
 
     // for database
-    const creatNewUserDocument = (email: string) => {
+    const creatNewUserDocument = async (email: string) => {
         const newUser = auth.currentUser!.uid
+        console.log(newUser)
         
         const usersCollection = doc(db,'users', newUser)
-        if(!usersCollection) {
+        const snap = await getDoc(usersCollection)
+       
+        if(!snap.data()) {
             const userData = {
                 posts: [],
+                likedPosts: [],
                 email: email,
                 username: '',
                 following: 0,
                 followers: 0
             }
-    
+            dispatch(setEmail(email))
             setDoc(usersCollection, userData)
         }
     }

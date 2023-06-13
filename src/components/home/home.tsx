@@ -43,7 +43,6 @@ const Home = () => {
                 }else {
                     const randomPostsArray: RandomPost[] = [];
                     item.data().posts.map((i: Post) => {
-                        console.log(item.data())
                         const data = {
                             ...i,
                             uid: item.id,
@@ -57,7 +56,6 @@ const Home = () => {
                 
                 }
             })
-            console.log(newPostsAray)
             setRandomPosts(newPostsAray);
     },1500) 
     }
