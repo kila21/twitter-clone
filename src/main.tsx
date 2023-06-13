@@ -10,6 +10,7 @@ import userInfoReducer from './store/userInfo/userInfo.slice.ts'
 import App from './App.tsx'
 import './index.scss'
 import Twitter from './components/twitter/twitter.tsx'
+import FullPost from './components/fullPost/fullPost.tsx'
 
 
 const store = configureStore({
@@ -21,7 +22,7 @@ const store = configureStore({
 
 const router = createBrowserRouter([
   {path: '/', element: <App />},
-  {path: '/home', element: <Twitter />}
+  {path: '/home/*', element: <Twitter />},
 ])
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
