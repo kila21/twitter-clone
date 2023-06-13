@@ -2,14 +2,16 @@
 import AccountInfo from '../Account-info/account-info';
 import './twitter.scss'
 
-import user from '../../assets/images/user.png'
 import { useEffect, useState } from 'react';
 import Home from '../home/home';
 import MobileNavigation from './mobile-navigation/mobileNavigation';
 import ChangeUsernameModal from '../../modals/changeUsername/changeUsername.modal';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useAppSelector } from '../../store/hooks';
 import { RootState } from '../../main';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
+import user from '../../assets/images/user.png'
+import FullPost from '../fullPost/fullPost';
 const Twitter = () => {
     
     const [click, setClick] = useState(false)
@@ -36,14 +38,6 @@ const Twitter = () => {
     }
 
     const changeBackStyles = () => {
-
-        // if(selector.changeUsernameModal) {
-        //     const pageContainer = document.getElementById('twitter')
-        //     if(pageContainer) {
-        //         pageContainer.style.backgroundColor = 'red'
-        //     }
-        // }
-       
         return <ChangeUsernameModal />
     }
 
@@ -59,15 +53,28 @@ const Twitter = () => {
                     <img onClick={() => setClick(true)} src={user}/>
                 </div>)}
 
-                <div className=''>
-                    <Home />
+                <div className='twitter-home'>
+                    <Routes>
+                        <Route path='/' Component={Home}/>   
+                        <Route path='/:username/:postId' Component={FullPost}/>
+                    </Routes>
+                    
+                    
                 </div>
             </div>
+
+           { maxWidth > 1100 && 
+           (<div className='twitter-account-search'>
+                Search Components
+            </div>
+           )}
 
             <div className='mobile-fiexd-main-list'>
                 <MobileNavigation />
             </div>
             {selector.changeUsernameModal && changeBackStyles()}
+            {/* {selector.whoLikesModal && <WhoInteracts title='like'/>} */}
+            {/* {selector.whoRetweetsModal && <WhoInteracts title='Retweet'/>} */}
         </div>
 
     )
