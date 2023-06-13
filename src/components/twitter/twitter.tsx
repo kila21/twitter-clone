@@ -8,7 +8,7 @@ import MobileNavigation from './mobile-navigation/mobileNavigation';
 import ChangeUsernameModal from '../../modals/changeUsername/changeUsername.modal';
 import { useAppSelector } from '../../store/hooks';
 import { RootState } from '../../main';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useParams } from 'react-router-dom';
 
 import user from '../../assets/images/user.png'
 import FullPost from '../fullPost/fullPost';
@@ -17,6 +17,7 @@ const Twitter = () => {
     const [click, setClick] = useState(false)
     const [maxWidth, setMaxWidth] = useState(window.innerWidth)
 
+    const params = useParams()
     const selector = useAppSelector((state: RootState) => state.userInfo)
 
     useEffect(() => {
@@ -48,7 +49,7 @@ const Twitter = () => {
             </div>
 
             <div className='twitter-account-content'>
-                {maxWidth < 500 &&
+                {(maxWidth < 500 && params['*'] === '' ) &&
                 (<div className='twitter-user'>
                     <img onClick={() => setClick(true)} src={user}/>
                 </div>)}

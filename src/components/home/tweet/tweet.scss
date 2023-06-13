@@ -81,6 +81,11 @@
                 margin-right: 10px;
                 cursor: pointer;
             }
+            span:hover{
+                cursor: pointer;
+                padding-bottom: 3px;
+                border-bottom: 1px solid grey;
+            }
         }
     }
 }

@@ -36,18 +36,20 @@ const Home = () => {
                             uid: item.id,
                             email: item.data().email,
                             username: item.data().username,
+                            postIndex: index,
                         }
                         newPostsAray.push(data)
                     
                     }
                 }else {
                     const randomPostsArray: RandomPost[] = [];
-                    item.data().posts.map((i: Post) => {
+                    item.data().posts.map((i: Post, index: number) => {
                         const data = {
                             ...i,
                             uid: item.id,
                             email: item.data().email,
-                            username: item.data().username
+                            username: item.data().username,
+                            postIndex: index,
                         }
                         randomPostsArray.push(data)
                     })
@@ -82,7 +84,8 @@ const Home = () => {
                     ...selector.posts[selector.posts.length-1],
                     uid: auth.currentUser!.uid,
                     username: selector.username,
-                    email: selector.email
+                    email: selector.email,
+                    postIndex: selector.posts.length-1,
                 }
                 const newArray = [data,...randomPosts]
                
@@ -114,6 +117,7 @@ const Home = () => {
                     likes={p.likes}
                     shares={p.shares}
                     uid={p.uid}
+                    postIndex = {p.postIndex}
                     />
                 })}
             </div>

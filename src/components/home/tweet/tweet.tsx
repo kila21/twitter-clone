@@ -18,6 +18,7 @@ import { auth } from '../../../config/firebase';
 import './tweet.scss'
 import { deletePostInCollection } from '../../../store/userInfo/userInfo.thunk';
 import { Post, addLike } from '../../../store/userInfo/userInfo.slice';
+import { useNavigate } from 'react-router-dom';
 
 
 const Tweet = (props: any) => {
@@ -27,6 +28,7 @@ const Tweet = (props: any) => {
 
     const selector = useAppSelector((state: RootState) => state.userInfo)
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     
     const getInfosForLikePost = async () => {
         const isLiked =  await UserHaveLikedOrNot(props.uid, props.post)
@@ -51,9 +53,17 @@ const Tweet = (props: any) => {
         }
         dispatch(deletePostInCollection(data))
     }
+
+    const NavigateToFullPost = () => {
+        const data = {
+            ...props
+        }
+        
+        navigate(`/home/${props.username}/${props.postIndex}`, {state: data})
+    }
     
     return (
-        <div className="tweet-container">
+        <div onClick={NavigateToFullPost} className="tweet-container">
            {(auth.currentUser?.uid === props.uid)  && <div onClick={() => setShowHidden(!showHidden)} className='remove-post-container'>
                 ...
             </div>}
