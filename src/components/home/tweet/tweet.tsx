@@ -56,14 +56,15 @@ const Tweet = (props: any) => {
 
     const NavigateToFullPost = () => {
         const data = {
-            ...props
+            ...props,
+            liked: liked
         }
-        
+
         navigate(`/home/${props.username}/${props.postIndex}`, {state: data})
     }
     
     return (
-        <div onClick={NavigateToFullPost} className="tweet-container">
+        <div className="tweet-container">
            {(auth.currentUser?.uid === props.uid)  && <div onClick={() => setShowHidden(!showHidden)} className='remove-post-container'>
                 ...
             </div>}
@@ -81,7 +82,7 @@ const Tweet = (props: any) => {
                     <span>May 18</span>
                 </div>
 
-                <div className='tweet-user-content'>
+                <div onClick={NavigateToFullPost} className='tweet-user-content'>
                     <p>
                         {props.post}
                     </p>

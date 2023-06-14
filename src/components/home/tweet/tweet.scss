@@ -48,6 +48,7 @@
     .tweet-user-post {
         display: flex;
         flex-direction: column;
+        width: 100%;
         .tweet-user-name {
             display: flex;
             align-items: center;
@@ -62,8 +63,8 @@
             }
         }
         .tweet-user-content{ 
-            width: 100%;
-            min-height: 20px;
+            width: 80%;
+            min-height: 30px;
             margin-bottom: 10px;
             height: auto;
         }

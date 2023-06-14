@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: column;
     margin-left: 20px;
-    width: 90%;
+    width: 95%;
     height: 100%;
     .fullpost-title {
         display: flex;
@@ -25,14 +25,49 @@
         border-bottom: 1px solid grey;
         .fullpost-post_user {
             display: flex;
-            align-items: center;
             justify-content: space-between;
             margin-bottom: 30px;
-            width: 25%;
-            img {
-                width: 30px;
-                cursor: pointer;
+            width: 100%;
+            .fullpost-post_user__profile {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 30%;
+                img {
+                    width: 30px;
+                    cursor: pointer;
+                }
             }
+            .fullpost-post-hidden {
+                position: relative;
+                span {
+                    font-size: 30px;
+                }
+                .fullpost-hidden-active {
+                    position: absolute;
+                    display: flex;
+                    flex-direction: column;
+                    z-index: 0;
+                    background-color: black;
+                    top: 50px;
+                    right: 0;
+                    width: 300px;
+                    min-height: 50px;
+                    box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 15px, rgba(255, 255, 255, 0.15) 0px 0px 3px 1px;
+                    border-radius: 10px;
+                    li {
+                        padding-left: 10px;
+                        padding-top: 15px;
+                        font-weight: 700;
+                        word-wrap: break-word;
+                        font-size: 20px;
+                        cursor: pointer;
+                        list-style: none;
+                        margin-bottom: 15px;
+                    }
+                }
+            }
+           
         }
         .fullpost-post_content {
             height: auto;
@@ -74,4 +109,9 @@
             cursor: pointer;
         }
     }
+}
+
+
+.hidden {
+    display: none !important;
 }
