@@ -12,15 +12,21 @@ import commentIcon from '../../assets/interact-icons/comment-white.svg'
 import './fullPost.scss';
 import { useEffect, useState } from 'react';
 import { auth } from '../../config/firebase';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { deletePostInCollection } from '../../store/userInfo/userInfo.thunk';
 import { AddLikedPostInFirabase, RemoveLikedPostFromFirbase } from '../home/tweet/userInteractFunctions';
+import { postLikesModal } from '../../store/userInfo/userInfo.slice';
+import { RootState } from '../../main';
+import WhoInteracts from '../../modals/whoInteracts/whoInteracts';
+import { FullPostType } from '../../types/FullPost.type';
 
 const FullPost = () => {
     const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
+    const selector = useAppSelector((state: RootState) => state.userInfo)
 
+    const [fullPostData, setFullPostData] = useState<FullPostType>()
     // for post removing and other functions
     const [showHiddenDiv, setShowhiddenDiv] = useState(false)
 
@@ -28,16 +34,37 @@ const FullPost = () => {
     const [retweeted, setRetweeted] = useState(false)
     const [numberOfLikes, setNumberOfLikes] = useState(location.state.likes.length)
 
+    const updateDataState = (func: string) => {
+        const newData = {
+            ...fullPostData!,
+        }
+        if(func === 'add') {
+            console.log(newData)
+            newData.likes?.push(auth.currentUser!.uid)
+            setFullPostData(newData)
+        }else {
+            newData.likes.map((item, index)=>{
+                if(item === auth.currentUser!.uid) {
+                    console.log(newData)
+                    newData.likes.splice(index,1)
+                    newData.likes = newData.likes.splice(index,1)
+                    setFullPostData(newData)
+                }
+            })
+        }
+    }
+
     useEffect(() => {
+        setFullPostData(location.state)
         setLiked(location.state.liked)
     },[])
 
     //only if currentuser and post author are the same.
     const removePost = () => {
         const data = {
-            post: location.state.post,
-            likes: location.state.likes,
-            shares: location.state.shares
+            post: fullPostData!.post,
+            likes: fullPostData!.likes,
+            shares: fullPostData!.shares
         }
         dispatch(deletePostInCollection(data))
         navigate('/home')
@@ -71,7 +98,7 @@ const FullPost = () => {
             </div>
 
             <div className='fullPost-all-interacts'>
-                <span>{numberOfLikes} <p>likes</p></span>
+                <span onClick={() => dispatch(postLikesModal(true))}>{numberOfLikes} <p>likes</p></span>
                 <span>{location.state.shares.length} <p>retweets</p></span>
             </div>
 
@@ -86,6 +113,7 @@ const FullPost = () => {
                 <img onClick={() => {
                     setLiked(!liked)
                     RemoveLikedPostFromFirbase(location.state.uid, location.state.post)
+                    updateDataState('remove')
                     setNumberOfLikes(numberOfLikes-1)
                     }
                 } src={likeIconRed} alt="like icon" /> 
@@ -93,12 +121,14 @@ const FullPost = () => {
                 <img onClick={() => {
                     setLiked(!liked)
                     AddLikedPostInFirabase(location.state.uid, location.state.post)
+                    updateDataState('add')
                     setNumberOfLikes(numberOfLikes+1)
                     }
                 } src={likeIcon} alt="comlikement icon" />
                 }
-               
             </div>
+
+            {selector.whoLikesModal && <WhoInteracts title='like' likes={location.state.likes} postAuthor={location.state.uid}/>}
         </div>
     )
 }

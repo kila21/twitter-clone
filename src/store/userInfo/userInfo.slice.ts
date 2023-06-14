@@ -9,6 +9,7 @@ export interface Post {
 }
 interface userInfoInitialState {
     changeUsernameModal: boolean,
+    whoLikesModal: boolean;
     posts: Post[] | null,
     username: null | string,
     email: string,
@@ -19,6 +20,7 @@ interface userInfoInitialState {
 
 const initialState: userInfoInitialState = {
     changeUsernameModal: false,
+    whoLikesModal: false,
     posts: null,
     username: null,
     email: '',
@@ -46,7 +48,6 @@ export const userInfoSlice = createSlice({
                 const newArray = state.posts;
                 const forStateUpdate = newArray.map((item)=>{
                     if(item.post === action.payload) {
-                        console.log(item)
                         const updated = item
                         updated.likes.push(auth.currentUser!.uid)
                         return updated
@@ -89,6 +90,9 @@ export const userInfoSlice = createSlice({
         changeUsernameModalClick: (state, action) => {
             state.changeUsernameModal = action.payload
         },
+        postLikesModal: (state,action) => {
+            state.whoLikesModal = action.payload
+        },
 
         setUsername: (state, action) => {
             state.username = action.payload
@@ -108,7 +112,8 @@ export const   {
     changeUsernameModalClick, 
     setUsername, 
     addLike,
-    setEmail
+    setEmail,
+    postLikesModal
 } = userInfoSlice.actions
 
 export default userInfoSlice.reducer;
