@@ -56,7 +56,7 @@ export const RemoveLikedPostFromFirbase = async (postAuthor: string, post: strin
     const postAuthorCollection = doc(db, 'users', postAuthor);
 
     const postAurhorCollectionSnapshot = await getDoc(postAuthorCollection)
-    const snapshot = await getDoc(userCollection)
+    // const snapshot = await getDoc(userCollection)
 
     const data = {id: postAuthor, post: post}
 

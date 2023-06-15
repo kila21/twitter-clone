@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 import NewTweet from './newTweet/newTweet';
 import Tweet from './tweet/tweet';
@@ -20,7 +20,7 @@ const Home = () => {
     const selector = useAppSelector((state) => state.userInfo)
     const [randomPosts, setRandomPosts] = useState<RandomPost[]>([]);
  
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
     const getUsers = async () => {
         setTimeout(async () => {

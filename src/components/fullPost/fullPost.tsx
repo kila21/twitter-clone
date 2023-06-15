@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import userProfile from '../../assets/images/user.png'
 import  retweetIcon from '../../assets/interact-icons/share-white.svg'
-import  retweetIconGreen from '../../assets/interact-icons/share-green.svg'
+// import  retweetIconGreen from '../../assets/interact-icons/share-green.svg'
 
 import likeIcon from '../../assets/interact-icons/like-white.svg'
 import likeIconRed from '../../assets/interact-icons/like-red.svg'
@@ -31,7 +31,7 @@ const FullPost = () => {
     const [showHiddenDiv, setShowhiddenDiv] = useState(false)
 
     const [liked, setLiked] = useState(false)
-    const [retweeted, setRetweeted] = useState(false)
+    // const [retweeted, setRetweeted] = useState(false)
     const [numberOfLikes, setNumberOfLikes] = useState(location.state.likes.length)
 
     const updateDataState = (func: string) => {
@@ -104,10 +104,15 @@ const FullPost = () => {
 
             <div className='fullpost-user-interacts'>
                 <img src={commentIcon} alt="comment icon" />    
-                {retweeted 
+                {/* {retweeted 
                 ? <img src={retweetIconGreen} alt='retweet icon'/>
                 : <img src={retweetIcon} alt='retweet icon'/>
-                }
+                } */}
+
+                {/* droebit sanam retweetis funqciebs davamatebt
+                */}
+                <img src={retweetIcon} alt='retweet icon'/>
+
                 { liked 
                 ? 
                 <img onClick={() => {

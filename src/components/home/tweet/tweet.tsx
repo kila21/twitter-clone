@@ -8,8 +8,7 @@ import shareIconWhite from '../../../assets/interact-icons/share-white.svg';
 // import commentIconWhite from '../../../assets/interact-icons/comment-white.svg';
 // import shareIconRed from '../../../assets/interact-icons/share-green.svg';
 
-import { RootState } from '../../../main';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { useAppDispatch } from '../../../store/hooks';
 
 import { RemoveLikedPostFromFirbase, UserHaveLikedOrNot, AddLikedPostInFirabase, getPostLikes } from './userInteractFunctions';
 import { auth } from '../../../config/firebase';
@@ -26,7 +25,7 @@ const Tweet = (props: any) => {
     const [liked, setLiked] = useState(false)
     const [countOfLikes, setCountofLikes] = useState(0)
 
-    const selector = useAppSelector((state: RootState) => state.userInfo)
+    // const selector = useAppSelector((state: RootState) => state.userInfo)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     

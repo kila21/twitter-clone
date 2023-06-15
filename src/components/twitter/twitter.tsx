@@ -8,7 +8,7 @@ import MobileNavigation from './mobile-navigation/mobileNavigation';
 import ChangeUsernameModal from '../../modals/changeUsername/changeUsername.modal';
 import { useAppSelector } from '../../store/hooks';
 import { RootState } from '../../main';
-import { BrowserRouter as Router, Route, Routes, useParams } from 'react-router-dom';
+import {Route, Routes, useParams } from 'react-router-dom';
 
 import user from '../../assets/images/user.png'
 import FullPost from '../fullPost/fullPost';

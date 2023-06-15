@@ -12,7 +12,7 @@ import './setting-wrapper.scss'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { userLogOut } from '../../../store/auth/auth.thunk'
 import { RootState } from '../../../main'
-import ChangeUsernameModal from '../../../modals/changeUsername/changeUsername.modal'
+// import ChangeUsernameModal from '../../../modals/changeUsername/changeUsername.modal'
 import { changeUsernameModalClick } from '../../../store/userInfo/userInfo.slice'
 
 const SettingWrapper = () => {

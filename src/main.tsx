@@ -10,7 +10,6 @@ import userInfoReducer from './store/userInfo/userInfo.slice.ts'
 import App from './App.tsx'
 import './index.scss'
 import Twitter from './components/twitter/twitter.tsx'
-import FullPost from './components/fullPost/fullPost.tsx'
 
 
 const store = configureStore({

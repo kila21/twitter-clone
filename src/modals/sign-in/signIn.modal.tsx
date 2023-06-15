@@ -45,7 +45,7 @@ const SignIn = () => {
         }
     }
 
-    const { register, handleSubmit, formState: {errors}} = useForm<SignInForm>()
+    const { register, handleSubmit} = useForm<SignInForm>()
     const onSubmit = (data: SignInForm) => {
         dispatch(userSignIn(data.email, data.password))
         .then((res:any)=>{
