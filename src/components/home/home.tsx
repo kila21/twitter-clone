@@ -66,9 +66,10 @@ const Home = () => {
     },[selector.posts?.length,selector.posts])
 
     useEffect(() => {
-        if(auth.currentUser) {
+        setTimeout(()=> {
             dispatch(getUserInfoThunk())
-        }
+        },2000)
+        
 
         if(selector.posts && selector.posts.length > 0) {
             let pushNewPost = false;
