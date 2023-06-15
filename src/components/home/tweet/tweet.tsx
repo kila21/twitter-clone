@@ -64,12 +64,7 @@ const Tweet = (props: any) => {
     
     return (
         <div className="tweet-container">
-           {(auth.currentUser?.uid === props.uid)  && <div onClick={() => setShowHidden(!showHidden)} className='remove-post-container'>
-                ...
-            </div>}
-            <div onClick={() => removePost()} className={showHidden ? 'remove-post-hidden remove-post-show' : 'remove-post-hidden'}>
-                    remove post
-            </div>
+          
 
             <div className="tweet-icon">
                 <img src={userIcon}/>
@@ -120,6 +115,13 @@ const Tweet = (props: any) => {
                     </div>
                 </div>
             </div>
+
+            <div onClick={() => removePost()} className={showHidden ? 'remove-post-hidden remove-post-show' : 'remove-post-hidden'}>
+                    remove post
+            </div>
+            {(auth.currentUser?.uid === props.uid)  && <div onClick={() => setShowHidden(!showHidden)} className='remove-post-container'>
+                ...
+            </div>}
         </div>
     ) 
 }
