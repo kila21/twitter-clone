@@ -61,7 +61,13 @@ const Tweet = (props: any) => {
             liked: liked
         }
 
-        navigate(`/home/${props.username}/${props.postIndex}`, {state: data})
+        if(props.username) {
+            console.log(props.username)
+            navigate(`/home/${props.username}/${props.postIndex}`, {state: data})
+        }else {
+
+            navigate(`/home/${props.email}/${props.postIndex}`, {state: data})
+        }
     }
     
     return (
