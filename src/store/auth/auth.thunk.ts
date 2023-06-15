@@ -6,10 +6,10 @@ import { signInModalClick, signUpModalClick, signUp, signIn, signOut } from "./a
 
 
 
-interface user  {
-    email: string,
-    password: string
-}
+// interface user  {
+//     email: string,
+//     password: string
+// }
 
 
 
