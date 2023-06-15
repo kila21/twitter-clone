@@ -7,4 +7,5 @@ export interface FullPostType {
     post: string,
     liked: boolean,
     email: string
+    date: string,
 }

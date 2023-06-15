@@ -5,7 +5,8 @@ import { auth } from "../../config/firebase";
 export interface Post {
     post: string,
     likes: string[],
-    shares: string[]
+    shares: string[],
+    date: string
 }
 interface userInfoInitialState {
     changeUsernameModal: boolean,

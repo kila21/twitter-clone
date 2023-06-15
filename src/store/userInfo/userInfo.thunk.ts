@@ -22,7 +22,7 @@ export const getUserInfoThunk = () => {
     }
 }
 
-export const addNewPostInCollectionThunk = (post: string) => {
+export const addNewPostInCollectionThunk = (post: string, date: Date) => {
     return async (dispatch: any) => {
         if(auth.currentUser?.uid) {
             const userCollection = doc(db, 'users', auth.currentUser!.uid)
@@ -31,6 +31,7 @@ export const addNewPostInCollectionThunk = (post: string) => {
                         post: post,
                         likes: [],
                         shares: [],
+                        date: date.toISOString()
                     }
                 await updateDoc(userCollection,{
                     posts: arrayUnion(data)
@@ -52,7 +53,6 @@ export const deletePostInCollection = (data: Post) => {
     return async (dispatch: any) => {
         if(auth.currentUser?.uid) {
             const userCollection = doc(db, 'users', auth.currentUser.uid)
-            console.log(data)
             await updateDoc(userCollection, {
                 posts: arrayRemove(data)
             })

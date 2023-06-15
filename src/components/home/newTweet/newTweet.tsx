@@ -12,11 +12,12 @@ import userIcon from '../../../assets/images/user.png'
 const NewTweet = () => {
     const dispatch = useAppDispatch();
     const textareaRef = useRef<HTMLTextAreaElement>(null)
-
+    
     const clickHandler = () => {
         if (textareaRef.current) {
             const textareaValue = textareaRef.current.value;
-            dispatch(addNewPostInCollectionThunk(textareaValue))
+            const date = new Date()
+            dispatch(addNewPostInCollectionThunk(textareaValue, date))
             textareaRef.current.value = ''
           }
     }

@@ -40,6 +40,7 @@
             }
             .fullpost-post-hidden {
                 position: relative;
+                padding-right: 30px;
                 span {
                     font-size: 30px;
                 }
@@ -73,6 +74,19 @@
             height: auto;
             min-height: 40px;
             font-size: 18px;
+        }
+    }
+    .fullPost-date {
+        border-bottom: 1px solid grey;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        color: grey;
+        font-weight: 600;
+        height: 70px;
+        .fullPost-date-year {
+            margin-left: 10px;
+            word-spacing: 5px;
         }
     }
 

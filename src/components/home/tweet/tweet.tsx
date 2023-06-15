@@ -24,7 +24,8 @@ const Tweet = (props: any) => {
     const [showHidden, setShowHidden] = useState(false)
     const [liked, setLiked] = useState(false)
     const [countOfLikes, setCountofLikes] = useState(0)
-
+    
+    const tweetDate = new Date(props.date)
     // const selector = useAppSelector((state: RootState) => state.userInfo)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
@@ -49,6 +50,7 @@ const Tweet = (props: any) => {
             post: props.post,
             likes: props.likes,
             shares: props.shares,
+            date: props.date
         }
         dispatch(deletePostInCollection(data))
     }
@@ -73,7 +75,9 @@ const Tweet = (props: any) => {
             <div className='tweet-user-post'>
                 <div className='tweet-user-name'>
                     <p>{props.username ? props.username : props.email}</p>
-                    <span>May 18</span>
+                    <span>
+                        {tweetDate.getDate()}{tweetDate.toLocaleString('default', { month: 'short' })}, {tweetDate.getFullYear()}
+                        </span>
                 </div>
 
                 <div onClick={NavigateToFullPost} className='tweet-user-content'>

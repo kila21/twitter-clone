@@ -34,18 +34,18 @@ const FullPost = () => {
     // const [retweeted, setRetweeted] = useState(false)
     const [numberOfLikes, setNumberOfLikes] = useState(location.state.likes.length)
 
+    const date = new Date(location.state.date)
+
     const updateDataState = (func: string) => {
         const newData = {
             ...fullPostData!,
         }
         if(func === 'add') {
-            console.log(newData)
             newData.likes?.push(auth.currentUser!.uid)
             setFullPostData(newData)
         }else {
             newData.likes.map((item, index)=>{
                 if(item === auth.currentUser!.uid) {
-                    console.log(newData)
                     newData.likes.splice(index,1)
                     newData.likes = newData.likes.splice(index,1)
                     setFullPostData(newData)
@@ -64,7 +64,8 @@ const FullPost = () => {
         const data = {
             post: fullPostData!.post,
             likes: fullPostData!.likes,
-            shares: fullPostData!.shares
+            shares: fullPostData!.shares,
+            date: fullPostData!.date
         }
         dispatch(deletePostInCollection(data))
         navigate('/home')
@@ -95,6 +96,12 @@ const FullPost = () => {
                 <div className='fullpost-post_content'>
                     {location.state?.post}
                 </div>
+            </div>
+
+            <div className='fullPost-date'>
+                <span>{date.getHours()}:</span>
+                <span>{date.getMinutes()}</span>
+                <span className='fullPost-date-year'>{date.toLocaleString('default',{month: 'short'})} {date.getDate()}, {date.getFullYear()}</span>
             </div>
 
             <div className='fullPost-all-interacts'>

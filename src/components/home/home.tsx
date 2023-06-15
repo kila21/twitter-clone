@@ -116,6 +116,7 @@ const Home = () => {
                     username={p.username} 
                     email={p.email}
                     likes={p.likes}
+                    date={p.date}
                     shares={p.shares}
                     uid={p.uid}
                     postIndex = {p.postIndex}
