@@ -12,6 +12,7 @@ import {Route, Routes, useParams } from 'react-router-dom';
 
 import user from '../../assets/images/user.png'
 import FullPost from '../fullPost/fullPost';
+import Profile from '../profile/profile';
 const Twitter = () => {
     
     const [click, setClick] = useState(false)
@@ -56,7 +57,8 @@ const Twitter = () => {
 
                 <div className='twitter-home'>
                     <Routes>
-                        <Route path='/' Component={Home}/>   
+                        <Route path='' Component={Home}/>   
+                        <Route path='/:username' Component={Profile}/>
                         <Route path='/:username/:postId' Component={FullPost}/>
                     </Routes>
                     
