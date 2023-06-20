@@ -21,11 +21,14 @@ import notificationIcon from '../../assets/images/notification.svg'
 import messageIcon from '../../assets/images/message.svg'
 import { useAppSelector } from '../../store/hooks'
 import { RootState } from '../../main'
+import { useNavigate } from 'react-router-dom'
+import { auth } from '../../config/firebase'
 
 
 const AccountInfo = (props: any) => {
     const [maxWidth, setMaxWidth] = useState(window.innerWidth)
     const seletor = useAppSelector((state: RootState) => state.userInfo)
+    const navigate = useNavigate()
 
     useEffect(() => {
         const handleResize = () => {
@@ -46,8 +49,20 @@ const AccountInfo = (props: any) => {
         //         {maxWidth < 500 && maxWidth > 1280 && <h3>Home</h3>}
         //     </div>)
         // }
+        const handleClick = () => {
+            let navigateText = `/${title.toLowerCase()}`
+            if(navigateText === '/profile') {
+                // navigateText = seletor.username ? seletor.username : seletor.email;
+                navigateText = `/home/${seletor.username ? seletor.username : seletor.email}`
+    
+            }else if (navigateText === '/home') {
+                navigateText = '/home'
+            }
+            return navigateText
+        }
+
         return (
-            <div className='account-info_list-item'>
+            <div onClick={() => navigate(handleClick(),{state: auth.currentUser!.uid})} className='account-info_list-item'>
                 <img src={src} alt={src}/>
                 {(maxWidth < 500 || maxWidth > 1280) && <h3>{title}</h3> }
             </div>
