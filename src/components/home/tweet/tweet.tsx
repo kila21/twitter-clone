@@ -62,10 +62,8 @@ const Tweet = (props: any) => {
         }
 
         if(props.username) {
-            console.log(props.username)
             navigate(`/home/${props.username}/${props.postIndex}`, {state: data})
         }else {
-
             navigate(`/home/${props.email}/${props.postIndex}`, {state: data})
         }
     }
@@ -80,7 +78,9 @@ const Tweet = (props: any) => {
 
             <div className='tweet-user-post'>
                 <div className='tweet-user-name'>
-                    <p>{props.username ? props.username : props.email}</p>
+                    <p onClick={() => navigate(`/home/${props.username ? props.username : props.email}`,{state: props.uid})}>
+                        {props.username ? props.username : props.email}
+                    </p>
                     <span>
                         {tweetDate.getDate()}{tweetDate.toLocaleString('default', { month: 'short' })}, {tweetDate.getFullYear()}
                         </span>

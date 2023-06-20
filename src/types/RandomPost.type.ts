@@ -4,6 +4,7 @@ export interface RandomPost {
     likes: string[],
     shares: string[],
     username: string | null;
+    date: string;
     email: string;
     uid: string;
     postIndex: number;
