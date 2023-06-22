@@ -14,8 +14,8 @@ interface userInfoInitialState {
     posts: Post[] | null,
     username: null | string,
     email: string,
-    following: number,
-    followers: number,
+    following: string[],
+    followers: string[],
     errors: any
 }
 
@@ -25,8 +25,8 @@ const initialState: userInfoInitialState = {
     posts: null,
     username: null,
     email: '',
-    following: 0,
-    followers: 0,
+    following: [],
+    followers: [],
     errors: null
 }
 
@@ -100,6 +100,16 @@ export const userInfoSlice = createSlice({
         },
         setEmail: (state,action) => {
             state.username = action.payload
+        },
+        addFollower: (state, action) => {
+            const newFollowingArray = [...state.following, action.payload]
+            state.following = newFollowingArray
+        },
+        removeFollower: (state, action) => {
+            const index = state.following.indexOf(action.payload)
+            const newFollowingArray = [...state.following]
+            newFollowingArray.splice(index, 1)
+            state.following = newFollowingArray
         }
     }
 })
@@ -114,7 +124,9 @@ export const   {
     setUsername, 
     addLike,
     setEmail,
-    postLikesModal
+    postLikesModal,
+    addFollower,
+    removeFollower
 } = userInfoSlice.actions
 
 export default userInfoSlice.reducer;

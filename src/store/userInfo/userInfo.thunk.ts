@@ -1,6 +1,6 @@
 import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../../config/firebase"
-import { Post, addNewPost, clearError, getUserInfo, removePost, setError } from "./userInfo.slice";
+import { Post, addFollower, addNewPost, clearError, getUserInfo, removeFollower, removePost, setError } from "./userInfo.slice";
 
 
 
@@ -85,3 +85,50 @@ export const deletePostInCollection = (data: Post) => {
     
 }
 
+
+// new Follow and update following array in firabase
+
+export const AddNewFollowInCollection = (id: string) => {
+    console.log(id)
+    return async (dispatch: any) => {
+
+        // user who click follow
+        const userCollection = doc(db, 'users', auth.currentUser!.uid)
+
+        // user who are followed 
+        const followedCollection = doc(db, 'users', id)
+
+
+        await updateDoc(userCollection, {
+            following: arrayUnion(id)
+        })
+        
+        await updateDoc(followedCollection, {
+            followers: arrayUnion(auth.currentUser!.uid)
+        })
+
+        dispatch(addFollower(id))
+    }
+}
+
+// remove follower
+
+export const RemoveUserFollowinInCollection = (id: string) => {
+    return async (dispatch: any) => {
+          // user who click unFollow
+          const userCollection = doc(db, 'users', auth.currentUser!.uid)
+
+          // user who are followed 
+          const followedCollection = doc(db, 'users', id)
+
+          await updateDoc(userCollection, {
+            following: arrayRemove(id)
+          })
+
+          await updateDoc(followedCollection, {
+            followers: arrayRemove(auth.currentUser!.uid)
+          })
+
+          dispatch(removeFollower(id))
+    }
+}

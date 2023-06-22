@@ -6,14 +6,17 @@ import './profile.scss'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../../config/firebase'
+import { auth, db } from '../../config/firebase'
 import { RandomPost } from '../../types/RandomPost.type'
 import Tweet from '../home/tweet/tweet'
 import { Post } from '../../store/userInfo/userInfo.slice'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { AddNewFollowInCollection, RemoveUserFollowinInCollection } from '../../store/userInfo/userInfo.thunk'
+import { RootState } from '../../main'
 
 type userDataType = {
-    following: number,
-    followers: number, 
+    following: string[],
+    followers: string[], 
     username: string, 
     email: string,
     dateOfJoin: Date
@@ -22,6 +25,8 @@ type userDataType = {
 const Profile = () => {
     const location = useLocation()
     const navigate = useNavigate()
+    const dispatch = useAppDispatch()
+    const selector = useAppSelector((state: RootState) => state.userInfo)
 
     // userLikedPosts
     const [postsArray, setPostsArray] = useState<RandomPost[]>([])
@@ -35,6 +40,8 @@ const Profile = () => {
     // pick which content to show, false === liked,  true === tweets
     const [clicked, setClicked] = useState(false)
 
+    // current user have follow or not 
+    const [follow, setFollow] = useState(false)
 
     // getUserTweets 
     const getUserTweets = async () =>{
@@ -107,13 +114,16 @@ const Profile = () => {
                 email: profileUserSnap.data().email,
                 dateOfJoin: new Date(profileUserSnap.data().dateOfJoin)
             }
+            if(data.followers.includes(auth.currentUser!.uid)) {
+                setFollow(true)
+            }
             setUserData(data)
         }
     }
 
     useEffect(() => {
         getUserProfile()
-    },[location.state])
+    },[location.state, selector.following.length])
     
     return (
         <div className='profile-container'>
@@ -134,6 +144,22 @@ const Profile = () => {
 
             <div className='profile-user'>
                 <img className='profile-user__image' src={profileIcon} alt='user icon'/>
+                {(auth?.currentUser?.uid !== location.state ) && !follow && 
+                <button className='profile-user__button' onClick={() => {
+                    dispatch(AddNewFollowInCollection(location.state))
+                    setFollow(true)
+                }}>
+                    Follow
+                </button>
+                }
+                {(auth?.currentUser?.uid !== location.state ) && follow && 
+                <button className='profile-user__button' onClick={() => {
+                    dispatch(RemoveUserFollowinInCollection(location.state))
+                    setFollow(false)
+                }}>
+                    unfollow
+                </button>
+                }
                 <h1>{userData?.username || userData?.email}</h1>
                 <div className='profile-joined-date'>
                     <img src={calendar} alt='calendar icon'/>
@@ -144,11 +170,11 @@ const Profile = () => {
                 </div>
                 <div className='profile-followers'>
                     <span>
-                        {userData?.following} <p>following</p>
+                        {userData?.following.length} <p>following</p>
                     </span>
 
                     <span>
-                        {userData?.followers} <p>followers</p>
+                        {userData?.followers.length} <p>followers</p>
                     </span>
                 </div>
             </div>
@@ -209,7 +235,8 @@ const Profile = () => {
                     />
                 })}
 
-                {/* {postsArray && postsArray.length === 0 && <div> No Post have Liked</div>} */}
+                {!clicked && postsArray && postsArray.length === 0 && <div className='profile-no-post'> No Post have Liked</div>}
+                {clicked && userTweets && userTweets.length === 0 && <div className='profile-no-post'> No Post have Tweeted</div>}
             </div>
         </div>
     )
