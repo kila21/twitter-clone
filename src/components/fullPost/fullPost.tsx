@@ -13,7 +13,7 @@ import './fullPost.scss';
 import { useEffect, useState } from 'react';
 import { auth } from '../../config/firebase';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { deletePostInCollection } from '../../store/userInfo/userInfo.thunk';
+import { AddNewFollowInCollection, RemoveUserFollowinInCollection, deletePostInCollection } from '../../store/userInfo/userInfo.thunk';
 import { AddLikedPostInFirabase, RemoveLikedPostFromFirbase } from '../home/tweet/userInteractFunctions';
 import { postLikesModal } from '../../store/userInfo/userInfo.slice';
 import { RootState } from '../../main';
@@ -33,6 +33,9 @@ const FullPost = () => {
     const [liked, setLiked] = useState(false)
     // const [retweeted, setRetweeted] = useState(false)
     const [numberOfLikes, setNumberOfLikes] = useState(location.state.likes.length)
+
+    // current user have followed or not 
+    // const [follow, setFollow] = useState(false)
 
     const date = new Date(location.state.date)
 
@@ -90,7 +93,19 @@ const FullPost = () => {
                     <div className='fullpost-post-hidden'>
                         <span onClick={() => setShowhiddenDiv(!showHiddenDiv)}>...</span>
                         <div className={showHiddenDiv ? 'fullpost-hidden-active': 'hidden'}>
-                            <li>Follow @{location.state.username}</li>
+                            {(auth.currentUser?.uid !== location.state.uid) && (selector.following.includes(location.state.uid)) &&
+
+                            <li onClick={()=> dispatch(RemoveUserFollowinInCollection(location.state.uid))}>
+                                unfollow @{location.state.username || location.state.email}
+                            </li>
+                            }
+
+
+                            {(auth.currentUser?.uid !== location.state.uid) && (!selector.following.includes(location.state.uid)) &&
+                            <li onClick={()=> dispatch(AddNewFollowInCollection(location.state.uid))}>
+                                Follow @{location.state.username || location.state.email}
+                            </li>
+                            }
                             {auth.currentUser?.uid === location.state.uid && <li onClick={removePost}>Remove Post</li>}
                         </div>
                     </div>
