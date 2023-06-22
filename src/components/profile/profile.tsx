@@ -11,6 +11,14 @@ import { RandomPost } from '../../types/RandomPost.type'
 import Tweet from '../home/tweet/tweet'
 import { Post } from '../../store/userInfo/userInfo.slice'
 
+type userDataType = {
+    following: number,
+    followers: number, 
+    username: string, 
+    email: string,
+    dateOfJoin: Date
+}
+
 const Profile = () => {
     const location = useLocation()
     const navigate = useNavigate()
@@ -19,7 +27,7 @@ const Profile = () => {
     const [postsArray, setPostsArray] = useState<RandomPost[]>([])
 
     //userData 
-    const [userData, setUserData] = useState<{following: number, followers: number, username: string, email: string}>()
+    const [userData, setUserData] = useState<userDataType>()
 
     //userTweets
     const [userTweets, setUserTweets] = useState<RandomPost[]>([])
@@ -55,7 +63,8 @@ const Profile = () => {
                 following: profileUserSnap.data().following,
                 followers: profileUserSnap.data().followers,
                 username: profileUserSnap.data().username,
-                email: profileUserSnap.data().email
+                email: profileUserSnap.data().email,
+                dateOfJoin: new Date(profileUserSnap.data().dateOfJoin)
             }
             setUserData(data)
         }
@@ -95,7 +104,8 @@ const Profile = () => {
                 following: profileUserSnap.data().following,
                 followers: profileUserSnap.data().followers,
                 username: profileUserSnap.data().username,
-                email: profileUserSnap.data().email
+                email: profileUserSnap.data().email,
+                dateOfJoin: new Date(profileUserSnap.data().dateOfJoin)
             }
             setUserData(data)
         }
@@ -127,7 +137,10 @@ const Profile = () => {
                 <h1>{userData?.username || userData?.email}</h1>
                 <div className='profile-joined-date'>
                     <img src={calendar} alt='calendar icon'/>
-                    <p>Joined April 2023</p>
+                    <p>
+                        Joined {userData?.dateOfJoin.getDate()} 
+                        {userData?.dateOfJoin.toLocaleString('default', {month: 'long'})} {userData?.dateOfJoin.getFullYear()}
+                     </p>
                 </div>
                 <div className='profile-followers'>
                     <span>

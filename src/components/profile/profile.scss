@@ -4,7 +4,8 @@
     flex-direction: column;
     width: 100%;
     min-height: 100%;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     .profile-name-fixed {
         position: fixed;
         align-items: center;

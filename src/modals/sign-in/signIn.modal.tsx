@@ -26,11 +26,11 @@ const SignIn = () => {
     // for database
     const creatNewUserDocument = async (email: string) => {
         const newUser = auth.currentUser!.uid
-        console.log(newUser)
         
         const usersCollection = doc(db,'users', newUser)
         const snap = await getDoc(usersCollection)
-       
+        const date = new Date()
+
         if(!snap.data()) {
             const userData = {
                 posts: [],
@@ -38,7 +38,8 @@ const SignIn = () => {
                 email: email,
                 username: '',
                 following: 0,
-                followers: 0
+                followers: 0,
+                dateOfJoin: date.toISOString()
             }
             dispatch(setEmail(email))
             setDoc(usersCollection, userData)
