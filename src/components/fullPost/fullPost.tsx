@@ -82,7 +82,10 @@ const FullPost = () => {
                 <div className='fullpost-post_user'>
                     <div className='fullpost-post_user__profile'>
                         <img src={userProfile}/>
-                        <h3>{location.state?.username}</h3>
+                        <h3 onClick={() => navigate(`/home/${location.state?.username ? location.state.username : location.state.email}`,
+                        {state: location.state.uid})}>
+                            {location.state?.username ? location.state.username : location.state.email}
+                        </h3>
                     </div>
                     <div className='fullpost-post-hidden'>
                         <span onClick={() => setShowhiddenDiv(!showHiddenDiv)}>...</span>
