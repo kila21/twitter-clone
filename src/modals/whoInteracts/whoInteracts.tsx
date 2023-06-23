@@ -55,7 +55,7 @@ const WhoInteracts = (props: any) => {
         setUsers(newData)
     }
 
-    const removeFollow = (id: string, index) =>{ 
+    const removeFollow = (id: string, index:number) =>{ 
         dispatch(RemoveUserFollowinInCollection(id))
         const newData = [...users]
         newData[index].followed = false
