@@ -5,12 +5,13 @@ import userProfile from '../../assets/images/user.png'
 import './whoInteracts.scss'
 import { useEffect, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../config/firebase';
+import { auth, db } from '../../config/firebase';
+import { AddNewFollowInCollection, RemoveUserFollowinInCollection } from '../../store/userInfo/userInfo.thunk';
 
 const WhoInteracts = (props: any) => {
     const dispatch = useAppDispatch()
 
-    const [users, setUsers] = useState<{username: string}[]>([])
+    const [users, setUsers] = useState<{username: string, uid: string, followed: boolean}[]>([])
 
 
     const getAllUser = async () => {
@@ -18,11 +19,26 @@ const WhoInteracts = (props: any) => {
             props.likes.map(async (item: string)=> {
                 const userCollection = doc(db, 'users', item);
                 const snap = await getDoc(userCollection)
+
+                const currentUserCollection = doc(db, 'users', auth.currentUser!.uid)
+                const currentSnap = await getDoc(currentUserCollection)
                 
+                let currUserHaveFollowed = false;
+
+                if(currentSnap.exists()) {
+                    currentSnap.data().following.map((follow: string) => {
+                        if(follow === item) {
+                            currUserHaveFollowed = true
+                        }
+                    })
+                }
+
                 if(snap.exists()) {
                     const data = {
                         username: snap.data().username,
+                        uid: snap.id,
                         // follow aqvs tuara current iusers,
+                        followed: currUserHaveFollowed
                         //profilis surati
                     }
                     return data
@@ -32,9 +48,22 @@ const WhoInteracts = (props: any) => {
         setUsers(newData)
     }
 
+    const addFollow = (id: string, index: number) => {
+        dispatch(AddNewFollowInCollection(id))
+        const newData = [...users]
+        newData[index].followed = true
+        setUsers(newData)
+    }
+
+    const removeFollow = (id: string, index) =>{ 
+        dispatch(RemoveUserFollowinInCollection(id))
+        const newData = [...users]
+        newData[index].followed = false
+        setUsers(newData)
+    }
+
 
     useEffect(() => {
-        console.log(props)
         getAllUser()
     },[])
 
@@ -54,7 +83,15 @@ const WhoInteracts = (props: any) => {
                                     <img src={userProfile} alt='user profile'/>
                                     <p>{i.username}</p> 
                                 </div>
-                                <button>Follow</button>
+                                {(auth.currentUser!.uid !== i.uid) 
+                                && !i.followed 
+                                && <button onClick={() => addFollow(i.uid, index)}>Follow</button>
+                                }
+
+                                {(auth.currentUser!.uid !== i.uid) 
+                                && i.followed 
+                                && <button onClick={() => removeFollow(i.uid, index)}>unfollow</button>
+                                }
                             </div>
                         )
                     })

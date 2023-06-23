@@ -89,7 +89,6 @@ export const deletePostInCollection = (data: Post) => {
 // new Follow and update following array in firabase
 
 export const AddNewFollowInCollection = (id: string) => {
-    console.log(id)
     return async (dispatch: any) => {
 
         // user who click follow
