@@ -76,8 +76,6 @@ const Twitter = () => {
                 <MobileNavigation />
             </div>
             {selector.changeUsernameModal && changeBackStyles()}
-            {/* {selector.whoLikesModal && <WhoInteracts title='like'/>} */}
-            {/* {selector.whoRetweetsModal && <WhoInteracts title='Retweet'/>} */}
         </div>
 
     )

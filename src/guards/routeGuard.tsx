@@ -1,7 +1,7 @@
 
-import { Route, useNavigate} from "react-router-dom";
+import { Route, useLocation, useNavigate} from "react-router-dom";
 import { auth } from "../config/firebase";
-import { useEffect } from "react";
+import { Component, useEffect, useState } from "react";
 
 
 interface PrivateRouteProps {
@@ -11,14 +11,16 @@ interface PrivateRouteProps {
 
 
 export const PrivateRoute: React.FC<PrivateRouteProps> = ({path, element }) => {
-   const isAuth = auth.currentUser?.uid ? true : false
-   const navigate = useNavigate()
+  const navigate = useNavigate()
 
-   useEffect(() => {
-    if (!isAuth) {
-      navigate('/');
+
+  useEffect(() => {
+    const currentUser = sessionStorage.getItem('id')
+    if(!currentUser) {
+      navigate('/')
     }
-  }, [isAuth, navigate]);
-  
-   return <>{element}</>
+  }, []);
+
+
+  return <>{element}</>
 }

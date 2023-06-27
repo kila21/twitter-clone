@@ -52,6 +52,7 @@ const SignIn = () => {
         .then((res:any)=>{
             if(res.payload.user) {
                 creatNewUserDocument(data.email)
+                sessionStorage.setItem('id', auth.currentUser!.uid)
                 navigate('/home')
             }
         })

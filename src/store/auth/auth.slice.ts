@@ -41,6 +41,7 @@ export const authSlice = createSlice({
            }
         },
         signOut: (state) => {
+            sessionStorage.removeItem('id')
             state.user = false
         }
     }
