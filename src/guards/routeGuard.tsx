@@ -1,7 +1,7 @@
 
-import { Route, useLocation, useNavigate} from "react-router-dom";
-import { auth } from "../config/firebase";
-import { Component, useEffect, useState } from "react";
+import { useNavigate} from "react-router-dom";
+
+import { useEffect } from "react";
 
 
 interface PrivateRouteProps {
@@ -10,7 +10,7 @@ interface PrivateRouteProps {
 }
 
 
-export const PrivateRoute: React.FC<PrivateRouteProps> = ({path, element }) => {
+export const PrivateRoute: React.FC<PrivateRouteProps> = ({element }) => {
   const navigate = useNavigate()
 
 

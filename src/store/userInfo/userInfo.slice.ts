@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { auth } from "../../config/firebase";
-import { act } from "react-dom/test-utils";
 
 
 export interface Post {
