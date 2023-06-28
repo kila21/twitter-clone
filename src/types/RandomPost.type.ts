@@ -8,4 +8,5 @@ export interface RandomPost {
     email: string;
     uid: string;
     postIndex: number;
+    photoURL: string;
 }

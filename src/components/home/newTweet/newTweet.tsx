@@ -2,15 +2,17 @@
 
 import { useRef } from 'react';
 
-import { useAppDispatch } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { addNewPostInCollectionThunk } from '../../../store/userInfo/userInfo.thunk';
 
 import './newTweet.scss'
 import userIcon from '../../../assets/images/user.png'
+import { RootState } from '../../../main';
 
 
 const NewTweet = () => {
     const dispatch = useAppDispatch();
+    const selector = useAppSelector((state: RootState) => state.userInfo)
     const textareaRef = useRef<HTMLTextAreaElement>(null)
     
     const clickHandler = () => {
@@ -24,7 +26,7 @@ const NewTweet = () => {
     return (
         <div className="newTweet">
             <div className='newTweet-post'>
-                <img src={userIcon} alt='userIcon'/>
+                <img src={selector.photoURL || userIcon} alt='userIcon'/>
                 <textarea ref={textareaRef} placeholder='What is Happening?'></textarea>  
             </div>
            

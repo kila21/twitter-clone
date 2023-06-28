@@ -8,7 +8,7 @@ import shareIconWhite from '../../../assets/interact-icons/share-white.svg';
 // import commentIconWhite from '../../../assets/interact-icons/comment-white.svg';
 // import shareIconRed from '../../../assets/interact-icons/share-green.svg';
 
-import { useAppDispatch } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 
 import { RemoveLikedPostFromFirbase, UserHaveLikedOrNot, AddLikedPostInFirabase, getPostLikes } from './userInteractFunctions';
 import { auth } from '../../../config/firebase';
@@ -18,6 +18,7 @@ import './tweet.scss'
 import { deletePostInCollection } from '../../../store/userInfo/userInfo.thunk';
 import { Post, addLike } from '../../../store/userInfo/userInfo.slice';
 import { useNavigate } from 'react-router-dom';
+import { RootState } from '../../../main';
 
 
 const Tweet = (props: any) => {
@@ -26,7 +27,7 @@ const Tweet = (props: any) => {
     const [countOfLikes, setCountofLikes] = useState(0)
     
     const tweetDate = new Date(props.date)
-    // const selector = useAppSelector((state: RootState) => state.userInfo)
+    const selector = useAppSelector((state: RootState) => state.userInfo)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     
@@ -56,6 +57,7 @@ const Tweet = (props: any) => {
     }
 
     const NavigateToFullPost = () => {
+        console.log(props)
         const data = {
             ...props,
             liked: liked
@@ -73,7 +75,7 @@ const Tweet = (props: any) => {
           
 
             <div className="tweet-icon">
-                <img src={userIcon}/>
+                <img src={props.photoURL || userIcon} alt='user profile icon'/>
             </div>
 
             <div className='tweet-user-post'>

@@ -84,7 +84,7 @@ const FullPost = () => {
             <div className='fullpost-post'>
                 <div className='fullpost-post_user'>
                     <div className='fullpost-post_user__profile'>
-                        <img src={userProfile}/>
+                        <img src={fullPostData?.photoURL || userProfile} alt='user profile icon'/>
                         <h3 onClick={() => navigate(`/home/${location.state?.username ? location.state.username : location.state.email}`,
                         {state: location.state.uid})}>
                             {location.state?.username ? location.state.username : location.state.email}

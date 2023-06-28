@@ -27,7 +27,7 @@ import { auth } from '../../config/firebase'
 
 const AccountInfo = (props: any) => {
     const [maxWidth, setMaxWidth] = useState(window.innerWidth)
-    const seletor = useAppSelector((state: RootState) => state.userInfo)
+    const selector = useAppSelector((state: RootState) => state.userInfo)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -53,7 +53,7 @@ const AccountInfo = (props: any) => {
             let navigateText = `/${title.toLowerCase()}`
             if(navigateText === '/profile') {
                 // navigateText = seletor.username ? seletor.username : seletor.email;
-                navigateText = `/home/${seletor.username ? seletor.username : seletor.email}`
+                navigateText = `/home/${selector.username ? selector.username : selector.email}`
     
             }else if (navigateText === '/home') {
                 navigateText = '/home'
@@ -82,11 +82,11 @@ const AccountInfo = (props: any) => {
             {maxWidth < 500 && 
             ( 
             <div className='account-info_user'>
-                <img src={autoUserImage} alt='auto user Image'/>
-                <p className='account-info_user-name'>{seletor.username || seletor.email}</p>
+                <img src={selector.photoURL || autoUserImage} alt='auto user Image'/>
+                <p className='account-info_user-name'>{selector.username || selector.email}</p>
                 <div className='account-info_user-following'>
-                    <p>{seletor.following} <span>following</span></p>
-                    <p>{seletor.followers} <span>followers</span></p>
+                    <p>{selector.following.length} <span>following</span></p>
+                    <p>{selector.followers.length} <span>followers</span></p>
                 </div>
             </div>
             )

@@ -52,7 +52,7 @@ const Twitter = () => {
             <div className='twitter-account-content'>
                 {(maxWidth < 500 && params['*'] === '' ) &&
                 (<div className='twitter-user'>
-                    <img onClick={() => setClick(true)} src={user}/>
+                    <img onClick={() => setClick(true)} src={selector.photoURL || user}/>
                 </div>)}
 
                 <div className='twitter-home'>

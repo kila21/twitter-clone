@@ -11,7 +11,7 @@ import { AddNewFollowInCollection, RemoveUserFollowinInCollection } from '../../
 const WhoInteracts = (props: any) => {
     const dispatch = useAppDispatch()
 
-    const [users, setUsers] = useState<{username: string, uid: string, followed: boolean}[]>([])
+    const [users, setUsers] = useState<{username: string, uid: string, followed: boolean, photoURL: string}[]>([])
 
 
     const getAllUser = async () => {
@@ -38,8 +38,9 @@ const WhoInteracts = (props: any) => {
                         username: snap.data().username,
                         uid: snap.id,
                         // follow aqvs tuara current iusers,
-                        followed: currUserHaveFollowed
+                        followed: currUserHaveFollowed,
                         //profilis surati
+                        photoURL: snap.data().photoURL
                     }
                     return data
                 } return null
@@ -80,7 +81,7 @@ const WhoInteracts = (props: any) => {
                         return (
                             <div key={index+'username'} className='whointeracts-container_users'>
                                 <div className='whointeracts-container_users--user'>
-                                    <img src={userProfile} alt='user profile'/>
+                                    <img src={i.photoURL || userProfile} alt='user profile'/>
                                     <p>{i.username}</p> 
                                 </div>
                                 {(auth.currentUser!.uid !== i.uid) 

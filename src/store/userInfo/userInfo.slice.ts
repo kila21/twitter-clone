@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { auth } from "../../config/firebase";
+import { act } from "react-dom/test-utils";
 
 
 export interface Post {
@@ -16,7 +17,8 @@ interface userInfoInitialState {
     email: string,
     following: string[],
     followers: string[],
-    errors: any
+    errors: any,
+    photoURL: string
 }
 
 const initialState: userInfoInitialState = {
@@ -27,7 +29,8 @@ const initialState: userInfoInitialState = {
     email: '',
     following: [],
     followers: [],
-    errors: null
+    errors: null,
+    photoURL: ''
 }
 
 
@@ -41,7 +44,8 @@ export const userInfoSlice = createSlice({
                 state.username = action.payload.username;
                 state.email = action.payload.email;
                 state.followers = action.payload.followers;
-                state.following = action.payload.following
+                state.following = action.payload.following,
+                state.photoURL = action.payload.photoURL
             }
         },
         addLike: (state,action) => {
@@ -110,6 +114,9 @@ export const userInfoSlice = createSlice({
             const newFollowingArray = [...state.following]
             newFollowingArray.splice(index, 1)
             state.following = newFollowingArray
+        },
+        updatePhotoURL: (state, action) => {
+            state.photoURL = action.payload
         }
     }
 })
@@ -126,7 +133,8 @@ export const   {
     setEmail,
     postLikesModal,
     addFollower,
-    removeFollower
+    removeFollower,
+    updatePhotoURL
 } = userInfoSlice.actions
 
 export default userInfoSlice.reducer;

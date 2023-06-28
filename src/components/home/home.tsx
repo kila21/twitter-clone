@@ -37,6 +37,7 @@ const Home = () => {
                             email: item.data().email,
                             username: item.data().username,
                             postIndex: index,
+                            photoURL: item.data().photoURL
                         }
                         newPostsAray.push(data)
                     
@@ -50,6 +51,7 @@ const Home = () => {
                             email: item.data().email,
                             username: item.data().username,
                             postIndex: index,
+                            photoURL: item.data().photoURL
                         }
                         randomPostsArray.push(data)
                     })
@@ -87,6 +89,7 @@ const Home = () => {
                     username: selector.username,
                     email: selector.email,
                     postIndex: selector.posts.length-1,
+                    photoURL: selector.photoURL
                 }
                 const newArray = [data,...randomPosts]
                
@@ -120,6 +123,7 @@ const Home = () => {
                     shares={p.shares}
                     uid={p.uid}
                     postIndex = {p.postIndex}
+                    photoURL = {p.photoURL}
                     />
                 })}
             </div>

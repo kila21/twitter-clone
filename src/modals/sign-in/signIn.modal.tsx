@@ -39,7 +39,8 @@ const SignIn = () => {
                 username: '',
                 following: 0,
                 followers: 0,
-                dateOfJoin: date.toISOString()
+                dateOfJoin: date.toISOString(),
+                photoURL: ''
             }
             dispatch(setEmail(email))
             setDoc(usersCollection, userData)

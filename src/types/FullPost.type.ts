@@ -8,4 +8,5 @@ export interface FullPostType {
     liked: boolean,
     email: string
     date: string,
+    photoURL: string
 }

@@ -76,7 +76,7 @@ const SettingWrapper = () => {
             
             return (
                 <div className='account-info_help-user'>
-                    <img onClick={() => setUserClick(!userClick)} src={userIcon} alt='user Icon'/>
+                    <img onClick={() => setUserClick(!userClick)} src={selector.photoURL || userIcon} alt='user Icon'/>
                     {maxWidth > 1280 && <span>{selector.username || selector.email}</span>}
                     {
                         userClick && 

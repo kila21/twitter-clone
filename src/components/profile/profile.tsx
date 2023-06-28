@@ -2,24 +2,27 @@
 import profileIcon from '../../assets/images/user.png'
 import calendar from '../../assets/images/message.svg'
 
-import './profile.scss'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
 import { auth, db } from '../../config/firebase'
-import { RandomPost } from '../../types/RandomPost.type'
 import Tweet from '../home/tweet/tweet'
+import './profile.scss'
+
+import { RandomPost } from '../../types/RandomPost.type'
 import { Post } from '../../store/userInfo/userInfo.slice'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { AddNewFollowInCollection, RemoveUserFollowinInCollection } from '../../store/userInfo/userInfo.thunk'
 import { RootState } from '../../main'
+import { uploadFileToStorage } from '../../functions/fileConverter'
 
 type userDataType = {
     following: string[],
     followers: string[], 
     username: string, 
     email: string,
-    dateOfJoin: Date
+    dateOfJoin: Date,
+    photoURL: string
 }
 
 const Profile = () => {
@@ -60,7 +63,8 @@ const Profile = () => {
                         date: post.date,
                         shares: post.shares,
                         uid: profileUserSnap.id,
-                        postIndex: i
+                        postIndex: i,
+                        photoURL: profileUserSnap.data().photoURL
                     }
                     newArray.push(data)
                 })
@@ -71,7 +75,8 @@ const Profile = () => {
                 followers: profileUserSnap.data().followers,
                 username: profileUserSnap.data().username,
                 email: profileUserSnap.data().email,
-                dateOfJoin: new Date(profileUserSnap.data().dateOfJoin)
+                dateOfJoin: new Date(profileUserSnap.data().dateOfJoin),
+                photoURL: profileUserSnap.data().photoURL
             }
             setUserData(data)
         }
@@ -99,7 +104,8 @@ const Profile = () => {
                                 date: p.date,
                                 shares: p.shares,
                                 uid: likedPostUserSnapshot.id,
-                                postIndex: i
+                                postIndex: i,
+                                photoURL: likedPostUserSnapshot.data().photoURL
                             }
                             newArray.push(data)
                         }
@@ -112,7 +118,8 @@ const Profile = () => {
                 followers: profileUserSnap.data().followers,
                 username: profileUserSnap.data().username,
                 email: profileUserSnap.data().email,
-                dateOfJoin: new Date(profileUserSnap.data().dateOfJoin)
+                dateOfJoin: new Date(profileUserSnap.data().dateOfJoin),
+                photoURL: profileUserSnap.data().photoURL
             }
             if(data.followers.includes(auth.currentUser!.uid)) {
                 setFollow(true)
@@ -120,6 +127,32 @@ const Profile = () => {
             setUserData(data)
         }
     }
+
+    // for upload photo
+    const fileInputRef = useRef<HTMLInputElement>(null)
+
+    const handlePhotoClick = () => {
+        if(fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
+
+    const handlePhotoChange = async (event: any) => {
+        if(auth.currentUser?.uid === location.state) {
+            const file = event.target.files?.[0];
+            if (file) {
+                try {
+                await uploadFileToStorage(file)
+            
+                // File upload and Firestore update successful
+                console.log('File uploaded and Firestore updated successfully');
+                } catch (error) {
+                // Handle the error
+                console.error('Error uploading file and updating Firestore:', error);
+                }
+            }
+        }
+      };
 
     useEffect(() => {
         getUserProfile()
@@ -143,7 +176,14 @@ const Profile = () => {
             </div>
 
             <div className='profile-user'>
-                <img className='profile-user__image' src={profileIcon} alt='user icon'/>
+                { auth.currentUser?.uid === location.state 
+                && 
+                <input type="file" accept="image/*" style={{ display: 'none' }} ref={fileInputRef}  onChange={handlePhotoChange}/>
+                }
+
+                <img onClick={handlePhotoClick} className='profile-user__image' src={userData?.photoURL || profileIcon} alt='user icon'/>
+
+
                 {(auth?.currentUser?.uid !== location.state ) && !follow && 
                 <button className='profile-user__button' onClick={() => {
                     dispatch(AddNewFollowInCollection(location.state))
@@ -218,6 +258,7 @@ const Profile = () => {
                     shares={i.shares}
                     uid={i.uid}
                     postIndex = {i.postIndex}
+                    photoURL = {i.photoURL}
                     />
                 })}
 
@@ -232,6 +273,7 @@ const Profile = () => {
                     shares={p.shares}
                     uid={p.uid}
                     postIndex = {p.postIndex}
+                    photoURL = {p.photoURL}
                     />
                 })}
 
