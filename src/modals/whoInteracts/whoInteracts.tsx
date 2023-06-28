@@ -7,11 +7,13 @@ import { useEffect, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../../config/firebase';
 import { AddNewFollowInCollection, RemoveUserFollowinInCollection } from '../../store/userInfo/userInfo.thunk';
+import { useNavigate } from 'react-router-dom';
 
 const WhoInteracts = (props: any) => {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
 
-    const [users, setUsers] = useState<{username: string, uid: string, followed: boolean, photoURL: string}[]>([])
+    const [users, setUsers] = useState<{username: string, email: string, uid: string, followed: boolean, photoURL: string}[]>([])
 
 
     const getAllUser = async () => {
@@ -37,6 +39,7 @@ const WhoInteracts = (props: any) => {
                     const data = {
                         username: snap.data().username,
                         uid: snap.id,
+                        email: snap.data().email,
                         // follow aqvs tuara current iusers,
                         followed: currUserHaveFollowed,
                         //profilis surati
@@ -80,7 +83,7 @@ const WhoInteracts = (props: any) => {
                     users.map((i,index) => {
                         return (
                             <div key={index+'username'} className='whointeracts-container_users'>
-                                <div className='whointeracts-container_users--user'>
+                                <div onClick={() => navigate(`/home/${i.username ? i.username : i.email}`,{state: i.uid})} className='whointeracts-container_users--user'>
                                     <img src={i.photoURL || userProfile} alt='user profile'/>
                                     <p>{i.username}</p> 
                                 </div>
