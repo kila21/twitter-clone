@@ -10,9 +10,9 @@ import Tweet from '../home/tweet/tweet'
 import './profile.scss'
 
 import { RandomPost } from '../../types/RandomPost.type'
-import { Post } from '../../store/userInfo/userInfo.slice'
+import { Post, updatePhotoURL } from '../../store/userInfo/userInfo.slice'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { AddNewFollowInCollection, RemoveUserFollowinInCollection } from '../../store/userInfo/userInfo.thunk'
+import { AddNewFollowInCollection, RemoveUserFollowinInCollection, getUserInfoThunk } from '../../store/userInfo/userInfo.thunk'
 import { RootState } from '../../main'
 import { uploadFileToStorage } from '../../functions/fileConverter'
 
@@ -142,8 +142,9 @@ const Profile = () => {
             const file = event.target.files?.[0];
             if (file) {
                 try {
-                await uploadFileToStorage(file)
-            
+                await uploadFileToStorage(file).then(res=>{
+                    dispatch(updatePhotoURL(res))
+                })
                 // File upload and Firestore update successful
                 console.log('File uploaded and Firestore updated successfully');
                 } catch (error) {
@@ -155,8 +156,9 @@ const Profile = () => {
       };
 
     useEffect(() => {
-        getUserProfile()
-    },[location.state, selector.following.length])
+        getUserProfile(),
+        dispatch(getUserInfoThunk())
+    },[location.state, selector.following.length, selector.photoURL])
     
     return (
         <div className='profile-container'>

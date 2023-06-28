@@ -2,6 +2,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { auth, db } from '../config/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
 import { updatePhotoURL } from '../store/userInfo/userInfo.slice';
+import { useAppDispatch } from '../store/hooks';
 
 export const fileToString = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -27,14 +28,14 @@ export const uploadFileToStorage = async (file: File) => {
     const storage = getStorage();
     const storageRef = ref(storage, `${auth.currentUser!.uid}/profilePhoto/${file.name}`);
     
-    await uploadBytes(storageRef, file).then((snapshot) => {
+    return await uploadBytes(storageRef, file).then((snapshot) => {
         // Get the download URL
-        getDownloadURL(snapshot.ref).then(async (downloadURL) => {
+        return getDownloadURL(snapshot.ref).then(async (downloadURL) => {
           const userCollection = doc(db, 'users', auth.currentUser!.uid)
           await updateDoc(userCollection, {
             photoURL: downloadURL
           })
-          await updatePhotoURL(downloadURL)
+          return downloadURL
           // Now you can store the download URL in Firestore or use it as needed
         }).catch((error) => {
           console.error('Error getting download URL', error);
