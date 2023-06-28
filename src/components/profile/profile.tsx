@@ -146,10 +146,9 @@ const Profile = () => {
                     dispatch(updatePhotoURL(res))
                 })
                 // File upload and Firestore update successful
-                console.log('File uploaded and Firestore updated successfully');
                 } catch (error) {
                 // Handle the error
-                console.error('Error uploading file and updating Firestore:', error);
+                alert(`Error uploading file and updating Firestore: ${error} `)
                 }
             }
         }

@@ -56,7 +56,6 @@ const Tweet = (props: any) => {
     }
 
     const NavigateToFullPost = () => {
-        console.log(props)
         const data = {
             ...props,
             liked: liked

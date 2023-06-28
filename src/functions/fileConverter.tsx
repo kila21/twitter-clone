@@ -1,8 +1,6 @@
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { auth, db } from '../config/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
-import { updatePhotoURL } from '../store/userInfo/userInfo.slice';
-import { useAppDispatch } from '../store/hooks';
 
 export const fileToString = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -38,9 +36,9 @@ export const uploadFileToStorage = async (file: File) => {
           return downloadURL
           // Now you can store the download URL in Firestore or use it as needed
         }).catch((error) => {
-          console.error('Error getting download URL', error);
+          alert(`Error getting download URL', ${error}`);
         });
       }).catch((error) => {
-        console.error('Error uploading file', error);
+        alert(`Error uploading file', ${error}`);
       });
 };
