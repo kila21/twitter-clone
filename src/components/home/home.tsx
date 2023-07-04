@@ -14,11 +14,14 @@ import { RandomPost } from '../../types/RandomPost.type';
 import { collection, getDocs } from 'firebase/firestore';
 import { Post } from '../../store/userInfo/userInfo.slice';
 
+import { ClipLoader } from 'react-spinners'
+
 
 const Home = () => {
     const dispatch = useAppDispatch();
     const selector = useAppSelector((state) => state.userInfo)
     const [randomPosts, setRandomPosts] = useState<RandomPost[]>([]);
+    const [isLoading, setIsLoading] = useState(true)
  
     // const navigate = useNavigate()
 
@@ -61,7 +64,8 @@ const Home = () => {
                 }
             })
             setRandomPosts(newPostsAray);
-    },1500) 
+            setIsLoading(false)
+    },2000) 
     }
     useEffect(() => {
         getUsers()
@@ -112,7 +116,12 @@ const Home = () => {
             </div>
 
             <div className='home-tweets'> 
-                {randomPosts.length > 0 && randomPosts?.map((p: any,index: number) => {
+                {isLoading && <div className='spinner'>
+                    <ClipLoader color='blue'/>
+                </div>
+                }   
+
+                {!isLoading && randomPosts.length > 0 && randomPosts?.map((p: any,index: number) => {
                     return <Tweet
                     key={index+p.post} 
                     post={p.post} 

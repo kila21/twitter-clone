@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { AddNewFollowInCollection, RemoveUserFollowinInCollection, getUserInfoThunk } from '../../store/userInfo/userInfo.thunk'
 import { RootState } from '../../main'
 import { uploadFileToStorage } from '../../functions/fileConverter'
+import { ClipLoader } from 'react-spinners'
 
 type userDataType = {
     following: string[],
@@ -30,6 +31,8 @@ const Profile = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const selector = useAppSelector((state: RootState) => state.userInfo)
+
+    const [isLoading, setIsLoading] = useState(true)
 
     // userLikedPosts
     const [postsArray, setPostsArray] = useState<RandomPost[]>([])
@@ -79,6 +82,7 @@ const Profile = () => {
                 photoURL: profileUserSnap.data().photoURL
             }
             setUserData(data)
+            setIsLoading(false)
         }
     }
 
@@ -125,6 +129,7 @@ const Profile = () => {
                 setFollow(true)
             }
             setUserData(data)
+            setIsLoading(false)
         }
     }
 
@@ -228,6 +233,7 @@ const Profile = () => {
                 // className='profile-interaction-list__item profile-interaction-list__item-active' 
                 onClick={() => {
                     setClicked(false)
+                    setIsLoading(true)
                     setUserTweets([])
                     getUserProfile()
                     }}>Likes</div>
@@ -240,6 +246,7 @@ const Profile = () => {
 
                 onClick={() => {
                     setClicked(true)
+                    setIsLoading(true)
                     getUserTweets()
                     setPostsArray([])
                 }}
@@ -248,7 +255,12 @@ const Profile = () => {
             </div>
             
             <div className='profile-tweets-content'>
-                {!clicked && postsArray && postsArray.map((i,index) => {
+                {isLoading &&  
+                <div style={{width: '100%', display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
+                    <ClipLoader color='blue'/>
+                </div>}
+
+                {!isLoading && !clicked && postsArray && postsArray.map((i,index) => {
                     return <Tweet 
                     key={index+i.post} 
                     post={i.post} 
@@ -263,7 +275,7 @@ const Profile = () => {
                     />
                 })}
 
-                {clicked && userTweets && userTweets.map((p,index) => {
+                {!isLoading && clicked && userTweets && userTweets.map((p,index) => {
                     return <Tweet 
                     key={index+p.post} 
                     post={p.post} 
@@ -278,8 +290,8 @@ const Profile = () => {
                     />
                 })}
 
-                {!clicked && postsArray && postsArray.length === 0 && <div className='profile-no-post'> No Post have Liked</div>}
-                {clicked && userTweets && userTweets.length === 0 && <div className='profile-no-post'> No Post have Tweeted</div>}
+                {!isLoading && !clicked && postsArray && postsArray.length === 0 && <div className='profile-no-post'> No Post have Liked</div>}
+                {!isLoading && clicked && userTweets && userTweets.length === 0 && <div className='profile-no-post'> No Post have Tweeted</div>}
             </div>
         </div>
     )
