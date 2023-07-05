@@ -41,6 +41,7 @@ const Explore = () => {
     const handleClick = (event: any) => {
         if (inputRef.current && !inputRef.current.contains(event.target)) {
             setIsClicked(false);
+            inputRef.current.value = ''
         }
     };
 
