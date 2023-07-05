@@ -79,3 +79,24 @@
         }
     }
 }
+
+@media screen and (max-device-width: 500px) {
+    .explore-container {
+        .explore-search {
+            img {
+                left: 100px
+            }
+        }
+    }
+}
+
+@media screen and (max-device-width: 768px) {
+    .explore-container {
+        .explore-search {
+            img {
+                left: 120px
+            }
+        }
+    }
+}
+
