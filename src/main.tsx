@@ -22,7 +22,6 @@ const store = configureStore({
 
 const routes: RouteObject[] = [
   {path: '/', element: <App />},
-  // {path: '/home/*', element: <Twitter />},
   {path: '/home/*',element: <PrivateRoute path='/home/*' element={<Twitter />}/> }
 
 ]

@@ -50,14 +50,15 @@ const AccountInfo = (props: any) => {
         //     </div>)
         // }
         const handleClick = () => {
-            let navigateText = `/${title.toLowerCase()}`
-            if(navigateText === '/profile') {
+            let navigateText = `/home/${title.toLowerCase()}`
+            if(navigateText === '/home/profile') {
                 // navigateText = seletor.username ? seletor.username : seletor.email;
                 navigateText = `/home/${selector.username ? selector.username : selector.email}`
     
-            }else if (navigateText === '/home') {
+            }else if (navigateText === '/home/home') {
                 navigateText = '/home'
             }
+            console.log(navigateText)
             return navigateText
         }
 
@@ -94,7 +95,7 @@ const AccountInfo = (props: any) => {
         
             <div className='account-info_list'>
                 { maxWidth > 500 && listItem('Home', homeIcon) }
-                { maxWidth > 500 && listItem('Search', searchIcon) }
+                { maxWidth > 500 && listItem('Explore', searchIcon) }
                 { maxWidth > 500 && listItem('Notification', notificationIcon) }
                 { maxWidth > 500 && listItem('Message', messageIcon) }
                 

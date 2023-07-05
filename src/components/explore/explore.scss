@@ -1,0 +1,81 @@
+
+.explore-container {
+    width: 100%;
+    min-height: 500px;
+    height: auto;
+    border-bottom: 1px solid grey;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .explore-search {
+        width: 100%;
+        height: 50px;
+        margin-top: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        input {
+            width: 70%;
+            margin-left: 30px;
+            height: 100%;
+            background: rgb(32, 35, 39);
+            border-radius: 30px;
+            border: none;
+            padding-left: 50px;
+            box-sizing: border-box;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            outline: none;
+        }
+        input:focus {
+            border: 3px solid rgb(17, 84, 131);
+        }
+        img {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            z-index: 100;
+            left: 160px;
+        }
+    }
+    .explore-users-container {
+        border: 1px solid grey;
+        width: 70%;
+        margin-left: 30px;
+        min-height: 200px;
+        border-radius: 10px;
+        box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 15px, rgba(255, 255, 255, 0.15) 0px 0px 3px 1px;
+        color: grey;
+        font-size: 20px;
+        display: flex;
+        
+        flex-direction: column;
+        .explore-noUser{
+            padding-top: 15px;
+            width: 100%;
+            height: 30px;
+            text-align: center;
+        }
+        .explore-user {
+            display: flex;
+            width: 100%;
+            height: 50px;
+            margin-left: 30px;
+            align-items: center;
+            margin-top: 15px;
+            img {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+            }
+            h4 {
+                color: white;
+                font-weight: bold;
+                margin-left: 30px;
+                font-size: 23px;
+            }
+        }
+    }
+}
