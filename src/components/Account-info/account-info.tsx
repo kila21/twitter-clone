@@ -15,7 +15,6 @@ import verifiedIcon from '../../assets/images/verified-white.svg'
 
 import homeIcon from '../../assets/images/home.svg'
 import searchIcon from '../../assets/images/search.svg'
-import notificationIcon from '../../assets/images/notification.svg'
 import messageIcon from '../../assets/images/message.svg'
 import { useAppSelector } from '../../store/hooks'
 import { RootState } from '../../main'
@@ -94,7 +93,6 @@ const AccountInfo = (props: any) => {
             <div className='account-info_list'>
                 { maxWidth > 500 && listItem('Home', homeIcon) }
                 { maxWidth > 500 && listItem('Explore', searchIcon) }
-                { maxWidth > 500 && listItem('Notification', notificationIcon) }
                 { maxWidth > 500 && listItem('Message', messageIcon) }
                 
                 { listItem('Profile', profileIcon)}
