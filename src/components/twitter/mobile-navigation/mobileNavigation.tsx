@@ -15,9 +15,9 @@ const MobileNavigation = () => {
     return (
         <div className='mobileNavigation'>
             <img onClick={() => navigate('/home')} src={homeIcon} alt='home'/>
-            <img onClick={() => navigate('/search')} src={searchIcon} alt='search'/>
-            <img onClick={() => navigate('/notification')} src={notificationIcon} alt='notification'/>
-            <img onClick={() => navigate('/message')} src={messageIcon} alt='message'/>
+            <img onClick={() => navigate('/home/explore')} src={searchIcon} alt='search'/>
+            <img onClick={() => navigate('/home/notification')} src={notificationIcon} alt='notification'/>
+            <img onClick={() => navigate('/home/message')} src={messageIcon} alt='message'/>
         </div>
     )
 }

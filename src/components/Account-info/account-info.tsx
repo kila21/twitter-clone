@@ -11,8 +11,6 @@ import './account-info.scss'
 import autoUserImage from '../../assets/images/user.png'
 import profileIcon from '../../assets/images/profile-white.svg'
 import bookmarkIcon from '../../assets/images/bookmark-white.svg'
-import listIcon from '../../assets/images/list-white.svg'
-import twitterBlueIcon from '../../assets/images/twitter-blue-white.svg'
 import verifiedIcon from '../../assets/images/verified-white.svg'
 
 import homeIcon from '../../assets/images/home.svg'
@@ -100,10 +98,8 @@ const AccountInfo = (props: any) => {
                 { maxWidth > 500 && listItem('Message', messageIcon) }
                 
                 { listItem('Profile', profileIcon)}
-                { listItem('Twitter Blue', twitterBlueIcon)}
-                { listItem('Lists', listIcon)}
                 { listItem('Bookmarks', bookmarkIcon)}
-                { listItem('Verified Orgs', verifiedIcon)}
+                { listItem('Verified', verifiedIcon)}
             </div>
        
             <SettingWrapper/>

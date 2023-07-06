@@ -37,8 +37,8 @@ const SignIn = () => {
                 likedPosts: [],
                 email: email,
                 username: '',
-                following: 0,
-                followers: 0,
+                following: [],
+                followers: [],
                 dateOfJoin: date.toISOString(),
                 photoURL: ''
             }
